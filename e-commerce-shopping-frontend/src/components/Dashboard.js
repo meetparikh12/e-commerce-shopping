@@ -4,28 +4,28 @@ import ProductList from './Product/ProductList';
 export default function Dashboard() {
     const products = [{
         _id: '1',
+        name: 'Polo T-shirt',
+        brand: 'Nike',
+        price: 1200,
+        image: 'https://allensolly.imgix.net/img/app/product/2/290068-1240382.jpg'
+    }, {
+        _id: '2',
+        name: 'Regular Fit Polo T-Shirt',
+        brand: 'Allen Solly',
+        price: 2200,
+        image: 'https://allensolly.imgix.net/img/app/product/3/321962-1510640.jpg?auto=format'
+    }, {
+        _id: '3',
+        name: "Casual Formal Shirt",
+        brand: 'Nike',
+        price: 1200,
+        image: "https://images-na.ssl-images-amazon.com/images/I/61DLuz2Of5L._UY445_.jpg"
+    }, {
+        _id: '4',
         name: 'Polo T-shirt (Black)',
         brand: 'Nike',
         price: 1200,
-        image: "https://images.sg.content-cdn.io/cdn//in-resources/b368029c-a4dd-448a-a888-58348cb1b144/Images/ProductImages/Source/NK618925-010L.jpg"
-    }, {
-        _id: '2',
-        name: 'Polo T-shirt (Blue)',
-        brand: 'Nike',
-        price: 1200,
-        image: "https://images.sg.content-cdn.io/cdn//in-resources/b368029c-a4dd-448a-a888-58348cb1b144/Images/ProductImages/Source/NK833592-457.jpg"
-    }, {
-        _id: '3',
-        name: "Running T-Shirt (White)",
-        brand: 'Nike',
-        price: 1200,
-        image: "https://johnbuckleysports.com/wp-content/uploads/2014/11/833591_100_A.jpg"
-    }, {
-        _id: '4',
-        name: 'Polo T-shirt (Light blue)',
-        brand: 'Nike',
-        price: 1200,
-        image: "https://www.hautelookcdn.com/products/AJ8021/large/12062782.jpg"
+        image: "https://www.ubexpress.pk/wp-content/uploads/2019/06/Black-Nike-AA-11.jpg"
     }];
         return (
             <ProductList products = {products}/>
