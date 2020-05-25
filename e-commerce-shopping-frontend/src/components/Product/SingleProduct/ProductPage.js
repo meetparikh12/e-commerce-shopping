@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 export default function ProductPage(props) {
     const products = [{
@@ -40,11 +40,16 @@ export default function ProductPage(props) {
 
     const id = props.match.params.id;
     const product = products.find((product)=> product._id === id);
+    const [totalPrice, setTotalPrice] = useState(product.price);
+
+    const quantityHandler = e => {
+        setTotalPrice(product.price * e.target.value)
+    }
     return (
         <div className="container mt-4">
             <div className="row">
                 <div className="col-md-4 pr-2 mt-4">
-                     <img class="img-fluid rounded" style={{border: "2px solid black", padding: "5% 0"}} src={product.image} alt="Chania"/> 
+                     <img className="img-fluid rounded" style={{border: "2px solid black", padding: "5% 0"}} src={product.image} alt="Chania"/> 
                 </div>
                 
                 <div className="col-md-8 my-4" style={{paddingLeft: "10%"}}>
@@ -56,17 +61,17 @@ export default function ProductPage(props) {
                         </div>
                     </div>
                     <div className="row">
-                        <div class="card" style={{width: "18rem"}}>
-                            <div class="card-body">
-                                <h5 class="card-title">Price: {product.price}/- INR</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">State: {product.stock}</h6>
-                                <div class="form-group">
-                                    <label for="quantity">Quantity:</label>
-                                        <select class="form-control" id="quantity">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
+                        <div className="card" style={{width: "18rem"}}>
+                            <div className="card-body">
+                                <h5 className="card-title">Price: {totalPrice}/- INR</h5>
+                                <h6 className="card-subtitle mb-2 text-muted">State: {product.stock}</h6>
+                                <div className="form-group">
+                                    <label>Quantity:</label>
+                                        <select className="form-control" onChange={quantityHandler}>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
                                         </select>
                                 </div> 
                                 <button className="btn btn-warning" style={{color: "white"}}>Add To Cart</button>
