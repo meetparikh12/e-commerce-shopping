@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
-
-export default function ProductPage(props) {
+import { connect } from "react-redux";
+import { addCartItem } from '../../../actions/actions';
+function ProductPage(props) {
     const products = [{
         _id: '1',
         name: 'Polo T-shirt',
@@ -39,8 +40,15 @@ export default function ProductPage(props) {
     const id = props.match.params.id;
     const product = products.find((product)=> product._id === id);
     const [totalPrice, setTotalPrice] = useState(product.price);
+    const [quantityOrdered, setQuantityOrdered] = useState(0);
     const quantityHandler = e => {
+        setQuantityOrdered(e.target.value);
         setTotalPrice(product.price * e.target.value)
+    }
+
+    const addToCartHandler = event => {
+        event.preventDefault();
+        props.addItemToCart(product, quantityOrdered);
     }
     return (
         <div className="container mt-4">
@@ -71,7 +79,7 @@ export default function ProductPage(props) {
                                                 )}
                                             </select>: <span> 0</span>}
                                     </div> 
-                                    <button className="btn btn-warning" style={{color: "white"}}>Add To Cart</button>
+                                    <button className="btn btn-warning" onClick={addToCartHandler} style={{color: "white"}}><i className="fa fa-shopping-cart" aria-hidden="true"></i> Add To Cart</button>
                                 </div>
                             </div>
                         : 
@@ -82,3 +90,11 @@ export default function ProductPage(props) {
         </div>
     )
 }
+const mapDispatchToProps = dispatchEvent => {
+    return {
+        addItemToCart: (product, quantity) => {
+            dispatchEvent(addCartItem(product, quantity));
+        } 
+    }
+}
+export default connect(null,mapDispatchToProps)(ProductPage);
