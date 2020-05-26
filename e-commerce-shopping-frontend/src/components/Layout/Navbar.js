@@ -12,7 +12,7 @@ const Navbar = props => {
             </button>
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav ml-auto">
-                <li className="nav-item">
+                <li className="nav-item mr-2">
                     
                     <Link  style={{"color": "white"}} className="nav-link" to="/cart/11">
                     <i className="fa fa-shopping-cart" style={{color: "white"}} aria-hidden="true"></i> Cart
@@ -20,16 +20,17 @@ const Navbar = props => {
                 </li>
                 { !loggedInUser.userId && <li className="nav-item">
                     <Link to="/register" style={{"color": "white"}} className="nav-link">
-                    <i className="fa fa-sign-in" style={{color: "white"}} aria-hidden="true"></i>Sign In</Link>
+                    <i className="fas fa-sign-in-alt" style={{color: "white"}}></i> Sign In</Link>
                 </li>}
-               { loggedInUser.userId && <li className="nav-item">
+               { loggedInUser.userId && <li className="nav-item mr-2">
                     <Link className="nav-link" style={{"color": "white"}} to="/">
-                        <i className="fa fa-user mr-1" style={{color: "white"}} aria-hidden="true"></i> 
+                        <i className="fas fa-user-circle mr-1" style={{color: "white"}} aria-hidden="true"></i> 
                          {loggedInUser.name}
                     </Link>
                 </li>}
                 { loggedInUser.userId && <li className="nav-item">
-                    <Link to="/" style={{"color": "white"}} onClick={props.logoutUser} className="nav-link">Logout</Link>
+                    <Link to="/" style={{"color": "white"}} onClick={props.logoutUser} className="nav-link">
+                    <i class="fas fa-sign-out-alt"  style={{color: "white"}}></i> Logout</Link>
                 </li>}
                 </ul>
             </div>
