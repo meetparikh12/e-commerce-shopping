@@ -40,7 +40,7 @@ function ProductPage(props) {
     const id = props.match.params.id;
     const product = products.find((product)=> product._id === id);
     const [totalPrice, setTotalPrice] = useState(product.price);
-    const [quantityOrdered, setQuantityOrdered] = useState(0);
+    const [quantityOrdered, setQuantityOrdered] = useState(1);
     const quantityHandler = e => {
         setQuantityOrdered(e.target.value);
         setTotalPrice(product.price * e.target.value)
@@ -49,6 +49,7 @@ function ProductPage(props) {
     const addToCartHandler = event => {
         event.preventDefault();
         props.addItemToCart(product, quantityOrdered);
+        props.history.push('/cart/11')
     }
     return (
         <div className="container mt-4">
