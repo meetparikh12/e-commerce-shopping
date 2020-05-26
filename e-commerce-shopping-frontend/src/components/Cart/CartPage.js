@@ -17,10 +17,10 @@ function CartPage(props) {
             <div className="container">
                 <div className='row'>
                     <div className="col-md-6 col-sm-12">
-                        <h4 style={{marginTop: "2%"}}>Shopping Cart</h4>
+                        <h5 style={{marginTop: "2%"}}><b>Shopping Cart </b><i className="fa fa-shopping-cart" aria-hidden="true"></i></h5>
                     </div>
                     <div className="col-md-6 col-sm-12 text-right">
-                        <h4 style={{marginTop: "2%"}}>Price</h4>
+                        <h5 style={{marginTop: "2%"}}><b>Price</b></h5>
                     </div>
                 </div>
                 <hr/>
