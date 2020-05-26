@@ -56,7 +56,7 @@ function ProductPage(props) {
             image: product.image
         }
         props.addItemToCart(cartProduct);
-        props.history.push('/cart/11')
+        props.history.push(`/cart/${props.loggedInUser.userId}`)
     }
     return (
         <div className="container mt-4">
@@ -98,6 +98,11 @@ function ProductPage(props) {
         </div>
     )
 }
+const mapStateToProps = state => {
+    return {
+        loggedInUser : state.user.userInfo
+    }
+}
 const mapDispatchToProps = dispatchEvent => {
     return {
         addItemToCart: (product) => {
@@ -105,4 +110,4 @@ const mapDispatchToProps = dispatchEvent => {
         } 
     }
 }
-export default connect(null,mapDispatchToProps)(ProductPage);
+export default connect(mapStateToProps,mapDispatchToProps)(ProductPage);

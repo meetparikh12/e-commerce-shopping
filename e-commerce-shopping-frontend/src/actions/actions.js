@@ -13,3 +13,10 @@ export const removeCartItem = (productId)=> {
         payload: productId
     }
 }
+
+export const setUserInfo = (userInfo) => {
+    return {
+        type: actionTypes.SET_USER_INFO,
+        payload: userInfo
+    }
+}

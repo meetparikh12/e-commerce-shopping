@@ -5,6 +5,7 @@ import Dashboard from './components/Dashboard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ProductPage from './components/Product/SingleProduct/ProductPage';
 import CartPage from './components/Cart/CartPage';
+import Register from './components/UserManagement/Register';
 
 class App extends Component {
   render(){
@@ -13,6 +14,7 @@ class App extends Component {
         <Navbar/>
         <main>
         <Switch>
+        <Route exact path="/register" component={Register}></Route>
         <Route exact path="/" component={Dashboard}></Route>
         <Route exact path="/product/:id" component={ProductPage}></Route>
         <Route exact path="/cart/:userId" component={CartPage}></Route>
