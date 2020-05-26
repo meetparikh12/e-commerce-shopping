@@ -12,7 +12,7 @@ const Navbar = props => {
                 <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
                     
-                    <a  style={{"color": "white"}} className="nav-link" href=" "><i className="fa fa-shopping-cart" style={{"color": "crimson"}} aria-hidden="true"></i> CART</a>
+                    <Link  style={{"color": "white"}} className="nav-link" to="/cart/11"><i className="fa fa-shopping-cart" style={{"color": "crimson"}} aria-hidden="true"></i> CART</Link>
                 </li>
                 <li className="nav-item">
                     <a  style={{"color": "white"}} className="nav-link" href=" ">SIGN IN</a>

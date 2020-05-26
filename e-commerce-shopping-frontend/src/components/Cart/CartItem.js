@@ -12,15 +12,15 @@ function CartItem(props) {
         <React.Fragment>
          <div className="row">
             <div className="col-md-2">
-                <img className="img-rounded rounded-circle" style={{"width": "5.5rem", "height": "5.5rem"}} src={props.item.product.image} alt="Cart item"/>
+                <img className="img-rounded rounded-circle" style={{"width": "5.5rem", "height": "5.5rem"}} src={props.item.image} alt="Cart item"/>
             </div>
             <div className="col-md-8">
-                <h6>{props.item.product.name}</h6>
-                <p>Quantity: {props.item.quantity}</p>
-                <button className="btn btn-outline-danger" onClick={()=>removeItemHandler(props.item.product._id)}><i class="far fa-times-circle"></i> Remove Item </button>
+                <h6>{props.item.name}</h6>
+                <p>Quantity: {props.item.quantityOrdered}</p>
+                <button className="btn btn-outline-danger" onClick={()=>removeItemHandler(props.item._id)}><i className="far fa-times-circle"></i> Remove Item </button>
             </div>
             <div className="col-md-2 text-right">
-                <p> {props.item.quantity * props.item.product.price}</p>
+                <p> {props.item.price}/- INR</p>
             </div>
         </div>
         <hr/>

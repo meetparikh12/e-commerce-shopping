@@ -48,7 +48,14 @@ function ProductPage(props) {
 
     const addToCartHandler = event => {
         event.preventDefault();
-        props.addItemToCart(product, quantityOrdered);
+        const cartProduct = {
+            _id: product._id,
+            name: product.name,
+            quantityOrdered: quantityOrdered,
+            price: totalPrice,
+            image: product.image
+        }
+        props.addItemToCart(cartProduct);
         props.history.push('/cart/11')
     }
     return (
@@ -76,7 +83,7 @@ function ProductPage(props) {
                                         <label>Quantity:</label>
                                             {product.quantity>0 ? <select className="form-control" onChange={quantityHandler}>
                                                 {[...Array(product.quantity).keys()].map((quantity)=> 
-                                                    <option value={quantity+1}>{quantity+1}</option>
+                                                    <option key={quantity+1} value={quantity+1}>{quantity+1}</option>
                                                 )}
                                             </select>: <span> 0</span>}
                                     </div> 
@@ -93,8 +100,8 @@ function ProductPage(props) {
 }
 const mapDispatchToProps = dispatchEvent => {
     return {
-        addItemToCart: (product, quantity) => {
-            dispatchEvent(addCartItem(product, quantity));
+        addItemToCart: (product) => {
+            dispatchEvent(addCartItem(product));
         } 
     }
 }
