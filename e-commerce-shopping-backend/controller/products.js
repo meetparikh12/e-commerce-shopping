@@ -56,3 +56,30 @@ exports.CREATE_PRODUCT = async (req,res,next)=> {
     }
     res.status(201).json({message: 'Product created successfully.'});
 }
+
+exports.UPDATE_PRODUCT = async (req,res,next) => {
+    const {productId} = req.params;
+    let product;
+    try {
+        product = await Product.findById(productId);
+    } catch(err) {
+        return next(new ErrorHandling('Product not fetched', 500));
+    } 
+    if(!product) {
+        return next(new ErrorHandling('Product not found', 404));
+    }
+
+    const {name, brand, description, price, quantityInStock} = req.body;
+    product.name = name;
+    product.brand = brand;
+    product.description = description;
+    product.price = price;
+    product.quantityInStock = quantityInStock;
+
+    try {
+        await product.save();
+    } catch(err){
+        return next(new ErrorHandling('Product not updated', 500));
+    } 
+    res.status(200).json({product});
+}
