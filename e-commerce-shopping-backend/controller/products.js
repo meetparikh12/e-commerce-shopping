@@ -23,6 +23,21 @@ exports.GET_ALL_PRODUCTS = async (req,res,next)=> {
     })});
 }
 
+exports.GET_SINGLE_PRODUCT = async (req,res,next)=> {
+    const {productId} = req.params;
+    let product;
+    try {
+        product = await Product.findById(productId);
+    } catch(err) {
+        return next(new ErrorHandling('Product not fetched', 500));
+    }
+    if(!product) {
+        return next(new ErrorHandling('Product not found', 404));
+    }
+
+    res.status(200).json({product});
+}
+
 exports.CREATE_PRODUCT = async (req,res,next)=> {
     const {name, brand, description, price, quantityInStock, image} = req.body;
     const product = new Product({
