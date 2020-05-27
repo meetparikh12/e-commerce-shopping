@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import { removeCartItem } from '../../actions/actions';
+import store from '../../store/store';
+import Cookie from "js-cookie";
 
 function CartItem(props) {
 
@@ -30,7 +32,12 @@ function CartItem(props) {
 
 const mapDispatchToProps = dispatchEvent => {
     return {
-        removeItemFromCart : (productId)=> dispatchEvent(removeCartItem(productId))
+        removeItemFromCart : (productId)=> {
+            dispatchEvent(removeCartItem(productId))
+            const  { cart } = store.getState();
+            Cookie.set("cartItems", JSON.stringify(cart.cartProduct));
+    
+        }
     }
 }
 export default connect(null,mapDispatchToProps)(CartItem);

@@ -2,6 +2,9 @@ import React, {useState, useEffect} from 'react'
 import { connect } from "react-redux";
 import { addCartItem } from '../../../actions/actions';
 import Axios from 'axios';
+import store from '../../../store/store';
+import Cookie from 'js-cookie';
+
 function ProductPage(props) {
     
     const [quantityOrdered, setQuantityOrdered] = useState(1);
@@ -40,7 +43,7 @@ function ProductPage(props) {
         <div className="container mt-4">
             <div className="row">
                 <div className="col-md-4 pr-2 mt-4">
-                     <img className="img-fluid rounded" src={product.image} alt="Chania"/> 
+                     <img className="img-fluid rounded" src={product.image} alt="Product"/> 
                 </div>
                 
                 <div className="col-md-8 my-4" style={{paddingLeft: "10%"}}>
@@ -85,6 +88,8 @@ const mapDispatchToProps = dispatchEvent => {
     return {
         addItemToCart: (product) => {
             dispatchEvent(addCartItem(product));
+            const  { cart } = store.getState();
+            Cookie.set("cartItems", JSON.stringify(cart.cartProduct));
         } 
     }
 }
