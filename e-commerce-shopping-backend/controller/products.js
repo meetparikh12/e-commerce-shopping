@@ -9,7 +9,7 @@ exports.GET_ALL_PRODUCTS = async (req,res,next)=> {
         return next(new ErrorHandling('Products not fetched', 500));
     } 
     if(!products || products.length === 0){
-        return next(new ErrorHandling('No Products found.', 404));
+        return next(new ErrorHandling('No Products found', 404));
     }
 
     res.status(200).json({products: products.map((product)=> {
@@ -54,7 +54,7 @@ exports.CREATE_PRODUCT = async (req,res,next)=> {
     } catch(err) {
         return next(new ErrorHandling('Product not created', 500))
     }
-    res.status(201).json({message: 'Product created successfully.'});
+    res.status(201).json({message: 'Product created successfully'});
 }
 
 exports.UPDATE_PRODUCT = async (req,res,next) => {
@@ -81,5 +81,26 @@ exports.UPDATE_PRODUCT = async (req,res,next) => {
     } catch(err){
         return next(new ErrorHandling('Product not updated', 500));
     } 
-    res.status(200).json({product});
+    res.status(200).json({message : 'Product updated successfully'});
+}
+
+exports.DELETE_PRODUCT = async (req,res,next) => {
+    const {productId} = req.params;
+    let product;
+    try {
+        product = await Product.findById(productId);
+    } catch(err) {
+        return next(new ErrorHandling('Product not fetched', 500));
+    } 
+    if(!product) {
+        return next(new ErrorHandling('Product not found', 404));
+    }
+
+    try {
+        await product.remove();
+    } catch(err){
+        return next(new ErrorHandling('Product not deleted', 500));
+    } 
+    res.status(200).json({message: 'Product deleted successfully'});
+
 }
