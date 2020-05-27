@@ -16,7 +16,7 @@ class App extends Component {
         <Switch>
         <Route exact path="/register" component={Register}></Route>
         <Route exact path="/" component={Dashboard}></Route>
-        <Route exact path="/product/:id" component={ProductPage}></Route>
+        <Route exact path="/product/:productId" component={ProductPage}></Route>
         <Route exact path="/cart/:userId" component={CartPage}></Route>
         <Redirect to="/"/>
         </Switch>

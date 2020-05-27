@@ -1,46 +1,24 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { connect } from "react-redux";
 import { addCartItem } from '../../../actions/actions';
+import Axios from 'axios';
 function ProductPage(props) {
-    const products = [{
-        _id: '1',
-        name: 'Polo T-shirt',
-        brand: 'Nike',
-        price: 1200,
-        image: 'https://allensolly.imgix.net/img/app/product/2/290068-1240382.jpg',
-        description: 'Nice T-shirt',
-        quantity: 5
-    }, {
-        _id: '2',
-        name: 'Regular Fit Polo T-Shirt',
-        brand: 'Allen Solly',
-        price: 2200,
-        image: 'https://allensolly.imgix.net/img/app/product/3/321962-1510640.jpg?auto=format',
-        description: 'Nice T-shirt',
-        quantity: 3
-    }, {
-        _id: '3',
-        name: "Casual Formal Shirt",
-        brand: 'Nike',
-        price: 1200,
-        image: "https://images-na.ssl-images-amazon.com/images/I/61DLuz2Of5L._UY445_.jpg",
-        description: 'Nice Casual Plain Shirt',
-        quantity: 7
-    }, {
-        _id: '4',
-        name: 'Polo T-shirt (Black)',
-        brand: 'Nike',
-        price: 1200,
-        image: "https://www.ubexpress.pk/wp-content/uploads/2019/06/Black-Nike-AA-11.jpg",
-        description: 'Nice T-shirt',
-        quantity: 0
-    }];
-
-
-    const id = props.match.params.id;
-    const product = products.find((product)=> product._id === id);
-    const [totalPrice, setTotalPrice] = useState(product.price);
+    
     const [quantityOrdered, setQuantityOrdered] = useState(1);
+    const [product, setProduct] = useState({});
+    const [totalPrice, setTotalPrice] = useState(0);
+
+    useEffect(()=> {
+        const {productId} = props.match.params;
+        Axios.get(`http://localhost:5000/api/products/${productId}`)
+        .then((res)=> {
+            setProduct(res.data.product);
+            setTotalPrice(res.data.product.price);
+        })
+        .catch((err)=> console.log(err.response.data));
+    }, [props.match.params]);
+
+
     const quantityHandler = e => {
         setQuantityOrdered(e.target.value);
         setTotalPrice(product.price * e.target.value)
@@ -74,15 +52,15 @@ function ProductPage(props) {
                         </div>
                     </div>
                     <div className="row">
-                        {product.quantity > 0 ? 
+                        {product.quantityInStock > 0 ? 
                             <div className="card" style={{width: "18rem"}}>
                                 <div className="card-body">
                                     <h5 className="card-title">Price: {totalPrice}/- INR</h5>
                                     <h6 className="card-subtitle mb-2 text-muted">State: In Stock</h6>
                                     <div className="form-group">
                                         <label>Quantity:</label>
-                                            {product.quantity>0 ? <select className="form-control" onChange={quantityHandler}>
-                                                {[...Array(product.quantity).keys()].map((quantity)=> 
+                                            {product.quantityInStock > 0 ? <select className="form-control" onChange={quantityHandler}>
+                                                {[...Array(product.quantityInStock).keys()].map((quantity)=> 
                                                     <option key={quantity+1} value={quantity+1}>{quantity+1}</option>
                                                 )}
                                             </select>: <span> 0</span>}
