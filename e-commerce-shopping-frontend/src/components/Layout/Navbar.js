@@ -19,7 +19,7 @@ const Navbar = props => {
                     </Link>
                 </li>
                 { !loggedInUser.userId && <li className="nav-item">
-                    <Link to="/register" style={{"color": "white"}} className="nav-link">
+                    <Link to="/login" style={{"color": "white"}} className="nav-link">
                     <i className="fas fa-sign-in-alt" style={{color: "white"}}></i> Sign In</Link>
                 </li>}
                { loggedInUser.userId && <li className="nav-item mr-2">

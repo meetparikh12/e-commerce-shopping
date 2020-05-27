@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ProductPage from './components/Product/SingleProduct/ProductPage';
 import CartPage from './components/Cart/CartPage';
 import Register from './components/UserManagement/Register';
+import Login from './components/UserManagement/Login';
 
 class App extends Component {
   render(){
@@ -14,6 +15,7 @@ class App extends Component {
         <Navbar/>
         <main>
         <Switch>
+        <Route exact path="/login" component={Login}></Route>
         <Route exact path="/register" component={Register}></Route>
         <Route exact path="/" component={Dashboard}></Route>
         <Route exact path="/product/:productId" component={ProductPage}></Route>
