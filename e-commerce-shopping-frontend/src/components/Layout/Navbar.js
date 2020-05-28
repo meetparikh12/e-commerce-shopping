@@ -30,7 +30,7 @@ const Navbar = props => {
                 </li>}
                 { loggedInUser.userId && <li className="nav-item">
                     <Link to="/" style={{"color": "white"}} onClick={props.logoutUser} className="nav-link">
-                    <i class="fas fa-sign-out-alt"  style={{color: "white"}}></i> Logout</Link>
+                    <i className="fas fa-sign-out-alt"  style={{color: "white"}}></i> Logout</Link>
                 </li>}
                 </ul>
             </div>

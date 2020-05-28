@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import {toast} from 'react-toastify';
+
+toast.configure();
 
 class Register extends Component {
 
@@ -38,8 +41,15 @@ class Register extends Component {
             "confirmPassword": this.state.confirmPassword
         }
         axios.post('http://localhost:5000/api/users/register', newUser)
-        .then((res)=> console.log(res.data))
-        .catch((err)=> console.log(err.response.data));
+        .then((res)=> {
+            console.log(res.data);
+            toast.success(res.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000});
+            this.props.history.push('/login');
+        })
+        .catch((err)=> {
+            console.log(err.response.data);
+            toast.error(err.response.data.message[0].msg || err.response.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000});
+        });
     }
 
     render() {

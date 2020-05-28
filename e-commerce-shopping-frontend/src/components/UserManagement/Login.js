@@ -5,7 +5,9 @@ import { connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import { setUserInfo } from '../../actions/actions';
 import jwt_decode from 'jwt-decode';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+toast.configure();
 class Login extends Component {
     constructor(props){
         super(props);
@@ -42,8 +44,13 @@ class Login extends Component {
             localStorage.setItem("jwt-token", token);
             const decoded_token = jwt_decode(token);
             this.props.setUserInfo(decoded_token, this.props.history);
+            toast.success('Logged In Successfully', {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000});
+
         })
-        .catch((err)=> console.log(err.response.data));        
+        .catch((err)=> {
+            console.log(err.response.data);
+            toast.error(err.response.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000});
+        });        
     }
     render() {
         return (
