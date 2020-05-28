@@ -1,8 +1,21 @@
 const User = require('../model/User');
 const ErrorHandling = require('../model/ErrorHandling');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const {secretKey} = require('../config/keys');
+const {validationResult} = require('express-validator');
 
 exports.REGISTER_USER = async (req,res,next) => {
+    
+    const error = validationResult(req);
+    
+    if(!error.isEmpty()){
+        let err = {};
+        err.message = error.array();
+        err.status = 422;
+        return next(err);
+    }
+
     const {name,email,password,confirmPassword} = req.body;
     let user;
     try {
@@ -44,7 +57,7 @@ exports.LOGIN_USER = async (req,res,next)=> {
         return next(new ErrorHandling('User not fetched', 500));
     } 
     if(!user){
-        return next(new ErrorHandling('Invalid credentials', 422));
+        return next(new ErrorHandling('Invalid credentials', 403));
     }
     let isPasswordEqual;
     try {
@@ -53,7 +66,22 @@ exports.LOGIN_USER = async (req,res,next)=> {
         return next(new ErrorHandling('Password not matched', 500));
     }
     if(!isPasswordEqual){
-        return next(new ErrorHandling('Invalid credentials', 422));
+        return next(new ErrorHandling('Invalid credentials', 403));
     }
-    res.status(200).json({user});
+    let token;
+    try {
+        token = jwt.sign(
+            {
+            userId: user._id,
+            email: user.email,
+            isAdmin: user.isAdmin,
+            name: user.name
+            }, 
+            secretKey, 
+            {expiresIn: '1h'}
+        )
+    } catch(err){
+        return next(new ErrorHandling('Not Authenticated', 401))
+    }
+    res.status(200).json({token});
 }
