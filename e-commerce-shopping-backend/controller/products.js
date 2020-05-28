@@ -1,5 +1,6 @@
 const Product = require('../model/Product');
 const ErrorHandling = require('../model/ErrorHandling');
+const {validationResult} = require('express-validator');
 
 exports.GET_ALL_PRODUCTS = async (req,res,next)=> {
     let products;
@@ -18,7 +19,8 @@ exports.GET_ALL_PRODUCTS = async (req,res,next)=> {
             name: product.name,
             brand: product.brand,
             price: product.price,
-            image: product.image
+            image: product.image,
+            quantityInStock: product.quantityInStock
         }
     })});
 }
@@ -39,6 +41,14 @@ exports.GET_SINGLE_PRODUCT = async (req,res,next)=> {
 }
 
 exports.CREATE_PRODUCT = async (req,res,next)=> {
+    const error = validationResult(req);
+    if(!error.isEmpty()){
+        let err = {};
+        err.message = error.array();
+        err.status = 422;
+        return next(err);
+    }
+
     const {name, brand, description, price, quantityInStock, image} = req.body;
     const product = new Product({
         name,
