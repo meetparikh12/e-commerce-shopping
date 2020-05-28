@@ -68,6 +68,14 @@ exports.CREATE_PRODUCT = async (req,res,next)=> {
 }
 
 exports.UPDATE_PRODUCT = async (req,res,next) => {
+    const error = validationResult(req);
+    if(!error.isEmpty()){
+        let err = {};
+        err.message = error.array();
+        err.status = 422;
+        return next(err);
+    }
+
     const {productId} = req.params;
     let product;
     try {
