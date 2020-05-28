@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Link} from 'react-router-dom';
-//import axios from 'axios';
+import axios from 'axios';
 import { connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import { setUserInfo } from '../../actions/actions';
-
+import jwt_decode from 'jwt-decode';
 
 class Login extends Component {
     constructor(props){
@@ -25,18 +25,18 @@ class Login extends Component {
     formSubmitHandler(e) {
         e.preventDefault();
         const loginUser = {
-            userId: '12i3eido',
             email: this.state.email,
             password: this.state.password
         }
       
-        this.props.setUserInfo(loginUser, this.props.history);
-
-        // axios.post('http://localhost:5000/api/users/login', loginUser)
-        // .then((res)=> {
-        //     this.props.setUserInfo(loginUser, this.props.history);
-        // })
-        // .catch((err)=> ))
+        axios.post('http://localhost:5000/api/users/login', loginUser)
+        .then((res)=> {
+            const {token} = res.data;
+            localStorage.setItem("jwt-token", token);
+            const decoded_token = jwt_decode(token);
+            this.props.setUserInfo(decoded_token, this.props.history);
+        })
+        .catch((err)=> console.log(err.response.data));        
     }
     render() {
         return (
