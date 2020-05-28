@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import Axios from 'axios';
 import { toast } from 'react-toastify';
-class AddProduct extends Component {
+toast.configure();
+class UpdateProduct extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -17,6 +18,32 @@ class AddProduct extends Component {
         this.formSubmitHandler = this.formSubmitHandler.bind(this);
     }
 
+    componentDidMount(){
+        const {productId} = this.props.match.params;
+        Axios.get(`http://localhost:5000/api/products/${productId}`)
+        .then((res)=> {
+            const {product} = res.data;
+            this.setState({
+                name: product.name,
+                brand: product.brand,
+                description: product.description,
+                image: product.image,
+                price: product.price,
+                quantityInStock: product.quantityInStock
+            })
+        })
+        .catch((err)=> 
+        {      
+            console.log(err.response.data);
+              
+            toast.error(err.response.data.message, {
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 2000
+            })
+            this.props.history.push('/products')
+        })
+    }
+
     fieldChangeHandler(event) {
         this.setState({
             [event.target.name] : event.target.value
@@ -25,6 +52,7 @@ class AddProduct extends Component {
 
     formSubmitHandler(event){
         event.preventDefault();
+        const {productId} = this.props.match.params;
         const { name, brand, description, price, image, quantityInStock} = this.state;
         const product = {
             name,
@@ -34,7 +62,7 @@ class AddProduct extends Component {
             image,
             quantityInStock
         }
-        Axios.post('http://localhost:5000/api/products', product)
+        Axios.patch(`http://localhost:5000/api/products/${productId}`, product)
         .then((res)=> {
             toast.success(res.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000})
             this.props.history.push('/products')
@@ -52,7 +80,7 @@ class AddProduct extends Component {
                 <div className="row">
                     <div className="col-md-8 m-auto" >
                         <Link to="/products" style={{marginTop: "2%"}} className="btn btn-light">Back to List</Link>
-                        <h4 className="display-4 text-center">Add Product</h4>
+                        <h4 className="display-4 text-center">Update Product</h4>
                         <form onSubmit={this.formSubmitHandler}>
                             <div className="form-group">
                                 <input type="text" onChange={this.fieldChangeHandler} className="form-control form-control-lg" name="name" 
@@ -93,4 +121,4 @@ class AddProduct extends Component {
 }
 
 
-export default AddProduct;
+export default UpdateProduct;

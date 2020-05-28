@@ -9,6 +9,7 @@ import Register from './components/UserManagement/Register';
 import Login from './components/UserManagement/Login';
 import ProductScreen from './components/Admin/ProductScreen';
 import AddProduct from './components/Admin/AddProduct';
+import UpdateProduct from './components/Admin/UpdateProduct';
 
 class App extends Component {
   render(){
@@ -21,6 +22,7 @@ class App extends Component {
         <Route exact path="/register" component={Register}></Route>
         <Route exact path='/products' component={ProductScreen}></Route>
         <Route exact path="/products/addNew" component={AddProduct}></Route>
+        <Route exact path="/products/:productId" component={UpdateProduct}></Route>
         <Route exact path="/" component={Dashboard}></Route>
         <Route exact path="/product/:productId" component={ProductPage}></Route>
         <Route exact path="/cart/:userId" component={CartPage}></Route>

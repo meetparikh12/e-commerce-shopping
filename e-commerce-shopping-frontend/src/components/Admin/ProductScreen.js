@@ -10,13 +10,12 @@ class ProductScreen extends Component {
     constructor(props){
         super(props);
         this.deleteProductHandler = this.deleteProductHandler.bind(this);
-
     }
     
     componentDidMount(){
         Axios.get('http://localhost:5000/api/products')
         .then((res)=> this.props.getAllProducts(res.data.products))
-        .catch((err)=> toast.error(err.response.data, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000}))
+        .catch((err)=> toast.error(err.response.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000}))
     }
 
     deleteProductHandler(productId){
@@ -27,7 +26,7 @@ class ProductScreen extends Component {
                 toast.success(res.data.message, {
                 position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000 })
             })
-            .catch((err)=> toast.error(err.response.data, {
+            .catch((err)=> toast.error(err.response.data.message, {
                 position: toast.POSITION.BOTTOM_RIGHT,
                 autoClose: 2000
             }))
@@ -63,7 +62,7 @@ class ProductScreen extends Component {
                         <td>{product.price}</td>
                         <td className="text-center">{product.quantityInStock}</td>
                         <td className="text-center">
-                        <Link to={`/products/{${product._id}}`} className="btn btn-outline-info mr-1">Edit</Link>
+                        <Link to={`/products/${product._id}`} className="btn btn-outline-info mr-1">Edit</Link>
                         <button onClick={()=> this.deleteProductHandler(product._id)} className="btn btn-outline-danger">Delete</button></td>
                     </tr>)}
                     </tbody>
