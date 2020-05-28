@@ -21,9 +21,16 @@ export const setUserInfo = (userInfo) => {
     }
 }
 
-export const addProduct = (product) => {
+export const getAllProducts = (productList) => {
     return {
-        type: actionTypes.ADD_PRODUCT,
-        payload: product
+        type: actionTypes.GET_ALL_PRODUCTS,
+        payload: productList
+    }
+}
+
+export const deleteProduct = (productId) => {
+    return {
+        type: actionTypes.DELETE_PRODUCT,
+        payload: productId
     }
 }
