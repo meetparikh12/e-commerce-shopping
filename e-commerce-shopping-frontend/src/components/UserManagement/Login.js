@@ -16,6 +16,13 @@ class Login extends Component {
         this.formChangeHandler = this.formChangeHandler.bind(this);
         this.formSubmitHandler = this.formSubmitHandler.bind(this);
     }
+
+    componentDidMount(){
+        if(this.props.loggedInUser.userId){
+            this.props.history.push('/');
+        }
+    }
+
     formChangeHandler(e) {
         this.setState({
             [e.target.name] : e.target.value
@@ -62,7 +69,14 @@ class Login extends Component {
     }
 }
 Login.propTypes = {
-    setUserInfo: PropTypes.func.isRequired
+    setUserInfo: PropTypes.func.isRequired,
+    loggedInUser: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => {
+    return {
+        loggedInUser: state.user.userInfo
+    }
 }
 const mapDispatchToProps = dispatchEvent => {
     return {
@@ -72,4 +86,4 @@ const mapDispatchToProps = dispatchEvent => {
         }
     }
 }
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

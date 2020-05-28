@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { setUserInfo } from '../../actions/actions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 class Register extends Component {
 
@@ -32,13 +32,14 @@ class Register extends Component {
     formSubmitHandler(e){
         e.preventDefault();
         const newUser = {
-            "userId": '1324565tgfdrtf3',
             "name": this.state.name,
             "email": this.state.email,
             "password": this.state.password,
             "confirmPassword": this.state.confirmPassword
         }
-        this.props.setUserInfo(newUser, this.props.history);
+        axios.post('http://localhost:5000/api/users/register', newUser)
+        .then((res)=> console.log(res.data))
+        .catch((err)=> console.log(err.response.data));
     }
 
     render() {
@@ -85,13 +86,4 @@ const mapStateToProps = state => {
     }
 }
 
-const mapDispatchToProps = dispatchEvent => {
-    return {
-        setUserInfo: (user, history) => {
-                dispatchEvent(setUserInfo(user));
-                history.push('/');
-        }
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, null)(Register);
