@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const productRoute = require('./routes/products');
+const userRoute = require('./routes/users');
 const ErrorHandling = require('./model/ErrorHandling');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -17,6 +18,7 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 app.use('/api/products', productRoute);
+app.use('/api/users', userRoute);
 
 app.use((req,res,next)=> {
     next(new ErrorHandling('Specified route does not exist', 404));
