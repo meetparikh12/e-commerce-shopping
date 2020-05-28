@@ -20,3 +20,10 @@ export const setUserInfo = (userInfo) => {
         payload: userInfo
     }
 }
+
+export const addProduct = (product) => {
+    return {
+        type: actionTypes.ADD_PRODUCT,
+        payload: product
+    }
+}
