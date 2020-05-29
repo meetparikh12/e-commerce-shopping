@@ -3,10 +3,19 @@ import { connect } from "react-redux";
 import Card from '../shared/UIElements/Card';
 import CartItem from './CartItem';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 function CartPage(props) {
     const [subTotal, setSubTotal] = useState(0);
-    
+    const [cartRedirectPage, setCartRedirectPage] = useState("login");
+
+    useEffect(()=>{
+        if(props.loggedInUser.userId){
+            setCartRedirectPage("shipping");
+        }else{
+            setCartRedirectPage("login");
+        }
+    }, [props.loggedInUser]);
     useEffect(() => {
         let cartProduct;
         if(props.cart.length === 0) {
@@ -38,7 +47,8 @@ function CartPage(props) {
                         <div className="card" style={{width: "18rem", margin: "2% auto", float: "right"}}>
                             <div className="card-body">
                                 <h5 className="card-title">Subtotal: {subTotal}/- INR</h5>
-                                <button className="btn btn-warning" style={{color: "white"}}>Proceed To Checkout</button>
+                                
+                                <Link to={`/${cartRedirectPage}`} className="btn btn-warning" style={{color: "white"}}>Proceed To Checkout</Link>
                             </div>
                         </div>
                     </div>
@@ -63,14 +73,16 @@ function CartPage(props) {
     }
 }
 CartPage.defaultProps = {
-    cart: []
+    cart: [],
+    loggedInUser: {}
 }
 CartPage.propTypes = {
     cart: PropTypes.array.isRequired
 }
 const mapStateToProps = state => {
     return {
-        cart: state.cart.cartProduct
+        cart: state.cart.cartProduct,
+        loggedInUser: state.user.userInfo
     }
 }
 export default connect(mapStateToProps, null)(CartPage);

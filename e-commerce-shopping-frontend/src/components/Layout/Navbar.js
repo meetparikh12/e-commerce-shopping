@@ -14,13 +14,19 @@ const Navbar = props => {
                 <ul className="navbar-nav ml-auto">
                 <li className="nav-item mr-2">
                     
-                    <Link  style={{"color": "white"}} className="nav-link" to="/cart/11">
+                    <Link  style={{"color": "white"}} className="nav-link" to="/cart">
                     <i className="fa fa-shopping-cart" style={{color: "white"}} aria-hidden="true"></i> Cart
                     </Link>
                 </li>
                 { !loggedInUser.userId && <li className="nav-item">
                     <Link to="/login" style={{"color": "white"}} className="nav-link">
                     <i className="fas fa-sign-in-alt" style={{color: "white"}}></i> Sign In</Link>
+                </li>}
+                { loggedInUser.userId && loggedInUser.isAdmin && <li className="nav-item mr-2">
+                    <Link className="nav-link" style={{"color": "white"}} to="/products">
+                        <i className="fas fa-dolly-flatbed mr-2" style={{color: "white"}}></i>
+                         Manage Products
+                    </Link>
                 </li>}
                { loggedInUser.userId && <li className="nav-item mr-2">
                     <Link className="nav-link" style={{"color": "white"}} to="/">

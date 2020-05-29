@@ -10,6 +10,7 @@ import Login from './components/UserManagement/Login';
 import ProductScreen from './components/Admin/ProductScreen';
 import AddProduct from './components/Admin/AddProduct';
 import UpdateProduct from './components/Admin/UpdateProduct';
+import ShippingPage from './components/Order/ShippingPage';
 
 class App extends Component {
   render(){
@@ -25,7 +26,9 @@ class App extends Component {
         <Route exact path="/products/:productId" component={UpdateProduct}></Route>
         <Route exact path="/" component={Dashboard}></Route>
         <Route exact path="/product/:productId" component={ProductPage}></Route>
-        <Route exact path="/cart/:userId" component={CartPage}></Route>
+        <Route exact path="/cart" component={CartPage}></Route>
+        <Route exact path="/shipping" component={ShippingPage}></Route>
+        
         <Redirect to="/"/>
         </Switch>
         </main>

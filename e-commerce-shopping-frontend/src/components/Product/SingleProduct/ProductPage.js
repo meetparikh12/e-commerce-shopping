@@ -37,7 +37,7 @@ function ProductPage(props) {
             image: product.image
         }
         props.addItemToCart(cartProduct);
-        props.history.push(`/cart/${props.loggedInUser.userId}`)
+        props.history.push('/cart')
     }
     return (
         <div className="container mt-4">
