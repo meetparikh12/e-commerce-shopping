@@ -34,3 +34,17 @@ export const deleteProduct = (productId) => {
         payload: productId
     }
 }
+
+export const addShippingDetails = (details)=> {
+    return {
+        type: actionTypes.ADD_SHIPPING_DETAILS,
+        payload: details
+    }
+}
+
+export const addPaymentMethod = (paymentMethod) => {
+    return {
+        type: actionTypes.ADD_PAYMENT_METHOD,
+        payload: paymentMethod
+    }
+}

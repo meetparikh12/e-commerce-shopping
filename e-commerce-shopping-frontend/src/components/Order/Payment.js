@@ -1,7 +1,24 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { addPaymentMethod } from '../../actions/actions'
 
-export default class Payment extends Component {
+class Payment extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            paymentMethod: ""
+        }
+        this.submitFormHandler = this.submitFormHandler.bind(this);
+    }
+
+    submitFormHandler(e){
+        e.preventDefault();
+        const paymentMethod = {
+            method: this.state.paymentMethod
+        }
+        this.props.addPaymentMethod(paymentMethod, this.props.history);
+    }
+
     render() {
         return (
             <div className="container">
@@ -9,11 +26,13 @@ export default class Payment extends Component {
                     <div className="col-md-12">
                         <div className="card" style={{width: "18rem", margin: "2% auto"}}>
                             <div className="card-body">
+                            <form onSubmit={this.submitFormHandler}>
                                 <h5 className="card-title" style={{marginBottom: "2rem"}}><b>Payment</b></h5>
-                                <div class="radio">
-                                <label><input type="radio" name="paypal" checked/> Paypal</label>
+                                <div className="radio">
+                                <label><input type="radio" name="paymentMethod" value="PayPal" onChange={(e)=>this.setState({paymentMethod: e.target.value})}/> Paypal</label>
                                 </div>  
-                                <Link to='/placeorder' className="btn btn-warning">Continue</Link>
+                                <input type="submit" value="Continue" className="btn btn-warning"/>
+                            </form>
                             </div>
                         </div>
                     </div>
@@ -22,3 +41,13 @@ export default class Payment extends Component {
         )
     }
 }
+
+const mapDispatchToProps = dispatchEvent => {
+    return {
+        addPaymentMethod: (method, history) => {
+            dispatchEvent(addPaymentMethod(method));
+            history.push('/placeorder');
+        }
+    }
+}
+export default connect(null,mapDispatchToProps)(Payment);

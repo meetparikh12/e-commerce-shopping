@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
+import { addShippingDetails } from '../../actions/actions';
+import { connect } from 'react-redux';
 
-export default class ShippingPage extends Component {
+class ShippingPage extends Component {
     constructor(props){
         super(props);
         this.state = {
-            address: '',
-            city: '',
-            postalCode: '',
-            country: ''
+            address: "",
+            city: "",
+            postalCode: "",
+            country: ""
         }
         this.fieldChangeHandler = this.fieldChangeHandler.bind(this);
         this.submitFormHandler = this.submitFormHandler.bind(this);
@@ -25,8 +27,7 @@ export default class ShippingPage extends Component {
         const shippingDetails = {
             address,city,postalCode,country
         }
-        console.log(shippingDetails);
-        this.props.history.push('/payment');
+        this.props.addShippingDetails(shippingDetails, this.props.history);
     }
     render() {
         return (
@@ -65,3 +66,14 @@ export default class ShippingPage extends Component {
         )
     }
 }
+
+const mapDispatchToProps = dispatchEvent => {
+    return {
+        addShippingDetails: (shippingDetails, history) => {
+            dispatchEvent(addShippingDetails(shippingDetails))
+            history.push('/payment');
+        }
+    }
+}
+
+export default connect(null,mapDispatchToProps)(ShippingPage);

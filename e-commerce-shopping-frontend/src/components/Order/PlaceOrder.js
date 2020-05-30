@@ -1,33 +1,35 @@
 import React, { Component } from 'react'
 import OrderItems from './OrderItems'
+import { connect } from 'react-redux';
 
-export default class PlaceOrder extends Component {
+class PlaceOrder extends Component {
     render() {
+        const {shippingDetails, paymentMethod} = this.props;
         return (
             <div className="container">
                 <div className="row">
                     <div className="col-lg-8" style={{marginTop: "2%"}}>
                         <div className="row">
-                            <div class="card bg-light text-dark" style={{width: "90%", margin: "auto"}}>
-                                <div class="card-body">
-                                    <h5 class="card-title"><b>Shipping Address</b></h5>
-                                    <p class="card-text">205 Sukun Flats, Arunachal Road, Subhanpura, Vadodara, India-390023</p>
+                            <div className="card bg-light text-dark" style={{width: "90%", margin: "auto"}}>
+                                <div className="card-body">
+                                    <h5 className="card-title"><b>Shipping Address</b></h5>
+                                    <p className="card-text">{shippingDetails.address}, {shippingDetails.city}, {shippingDetails.country}, {shippingDetails.postalCode}</p>
                                 </div>
                             </div>
                         </div>
                         <br/>
                         <div className="row">
-                            <div class="card bg-light text-dark" style={{width: "90%", margin: "auto"}}>
-                                <div class="card-body">
-                                    <h5 class="card-title"><b>Payment Method</b></h5>
-                                    <p class="card-text">PayPal</p>
+                            <div className="card bg-light text-dark" style={{width: "90%", margin: "auto"}}>
+                                <div className="card-body">
+                                    <h5 className="card-title"><b>Payment Method</b></h5>
+                                    <p className="card-text">{paymentMethod.method}</p>
                                 </div>
                             </div>
                         </div>   
                         <br/>
-                        <div class="card bg-light text-dark" style={{width: "94%", margin: "auto"}}>   
-                            <div class="card-body">
-                                    <h5 class="card-title"><b>Order Items</b></h5>
+                        <div className="card bg-light text-dark" style={{width: "94%", margin: "auto"}}>   
+                            <div className="card-body">
+                                    <h5 className="card-title"><b>Order Items</b></h5>
                                     <OrderItems/>
                             </div>     
                             
@@ -50,3 +52,15 @@ export default class PlaceOrder extends Component {
         )
     }
 }
+
+PlaceOrder.defaultProps = {
+    shippingDetails: {},
+    paymentMethod: {}
+}
+const mapStateToProps = state => {
+    return {
+        shippingDetails: state.shipping.shippingAddress,
+        paymentMethod: state.shipping.paymentMethod
+    }
+}
+export default connect(mapStateToProps,null)(PlaceOrder);
