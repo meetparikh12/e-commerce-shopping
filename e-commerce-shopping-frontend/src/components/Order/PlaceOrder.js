@@ -7,14 +7,18 @@ function PlaceOrder(props){
     const [subTotal, setSubTotal] = useState(0);
     const {shippingDetails, paymentMethod, cart} = props;
     
+    const shippingPrice = subTotal > 1000 ? 0 : 100;
+    const taxPrice = parseFloat((0.15 * subTotal).toFixed(2));
+    const totalPrice = subTotal + shippingPrice + taxPrice;
+    
     useEffect(()=> {
         
-        if(!props.paymentMethod.method){
-            props.history.push('/payment')
-        }
         if(!props.shippingDetails.address){
         props.history.push('/shipping')
+        } else if(!props.paymentMethod.method){
+            props.history.push('/payment')
         }
+
     }, [props.shippingDetails, props.paymentMethod, props.history])
 
     useEffect(() => {
@@ -71,9 +75,9 @@ function PlaceOrder(props){
                         <div className="card-body">
                             <h5 className="card-title"><b>Order Summary</b></h5>
                             <p className="card-text">Items: {subTotal}/- INR</p>
-                            <p className="card-text">Shipping: Free</p>                                
-                            <p className="card-text">Tax: 130/- INR</p>
-                            <h5 style={{color: "crimson"}} className="card-title">Total: {subTotal + 130}/- INR</h5>
+                            <p className="card-text">Shipping: {shippingPrice === 100 ? shippingPrice +"/- INR" : "Free"}</p>                                
+                            <p className="card-text">Tax: {taxPrice}/- INR</p>
+                            <h5 style={{color: "crimson"}} className="card-title">Total: {totalPrice}/- INR</h5>
                         </div>
                     </div>
                 </div>
