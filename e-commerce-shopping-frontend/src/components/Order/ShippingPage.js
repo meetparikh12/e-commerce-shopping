@@ -26,6 +26,7 @@ export default class ShippingPage extends Component {
             address,city,postalCode,country
         }
         console.log(shippingDetails);
+        this.props.history.push('/payment');
     }
     render() {
         return (
