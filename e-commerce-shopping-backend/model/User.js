@@ -17,7 +17,12 @@ const userSchema = new mongoose.Schema({
         type: Boolean, 
         required:true,
         default: false
-    }
+    },
+
+    orders: [{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    }]
 })
 
 module.exports = mongoose.model('User', userSchema);
