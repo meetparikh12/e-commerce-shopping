@@ -36,5 +36,15 @@ exports.CREATE_ORDER = async (req,res,next) => {
 }   
 
 exports.GET_ORDER = async (req,res,next)=> {
-
+    const {orderId} = req.params;
+    let order;
+    try {
+        order = await Order.findById(orderId)
+    } catch(err){
+        return next(new ErrorHandling('Order not fetched', 500))
+    }
+    if(!order){
+        return next(new ErrorHandling('Order not found', 404))
+    }
+    res.status(200).json({order});
 }

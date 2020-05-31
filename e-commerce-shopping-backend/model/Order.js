@@ -27,7 +27,10 @@ const paymentSchema = new mongoose.Schema({
 })
 
 const orderItemsSchema = new mongoose.Schema({
+    name: { type: String, required: true },
     quantityOrdered: { type: Number, required: true },
+    image: { type: String, required: true },
+    price: { type: String, required: true },
     product: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product',
