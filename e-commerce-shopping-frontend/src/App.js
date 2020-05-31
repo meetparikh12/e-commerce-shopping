@@ -13,6 +13,7 @@ import UpdateProduct from './components/Admin/UpdateProduct';
 import ShippingPage from './components/Order/ShippingPage';
 import Payment from './components/Order/Payment';
 import PlaceOrder from './components/Order/PlaceOrder';
+import SingleOrder from './components/Order/SingleOrder';
 
 class App extends Component {
   render(){
@@ -31,7 +32,8 @@ class App extends Component {
         <Route exact path="/cart" component={CartPage}></Route>
         <Route exact path="/shipping" component={ShippingPage}></Route>
         <Route exact path="/payment" component={Payment}></Route>  
-        <Route exact path="/placeorder" component={PlaceOrder}></Route>      
+        <Route exact path="/placeorder" component={PlaceOrder}></Route>
+        <Route exact path="/order/:orderId" component={SingleOrder}></Route>      
         <Redirect to="/"/>
         </Switch>
         </main>

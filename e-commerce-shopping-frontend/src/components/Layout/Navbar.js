@@ -13,7 +13,12 @@ const Navbar = props => {
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav ml-auto">
                 <li className="nav-item mr-2">
-                    
+                    <Link  style={{"color": "white"}} className="nav-link" to="/orders">
+                    <i className="fa fa-shopping-cart" style={{color: "white"}} aria-hidden="true"></i> My Orders
+                    </Link>
+                </li>
+                
+                <li className="nav-item mr-2">
                     <Link  style={{"color": "white"}} className="nav-link" to="/cart">
                     <i className="fa fa-shopping-cart" style={{color: "white"}} aria-hidden="true"></i> Cart
                     </Link>

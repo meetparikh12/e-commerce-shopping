@@ -46,13 +46,13 @@ function PlaceOrder(props){
         const {address, city, country, postalCode} = shippingAddress;
         const {method} = paymentMethod;
         const cartProduct = Cookie.getJSON("cartItems") || [];
-        const orderItems  = cartProduct.map(({_id: product, quantityOrdered})=> ({ product, quantityOrdered}));
+        const orderItems  = cartProduct.map(({_id: product, ...rest})=> ({ product, ...rest}));
         const orderDetails = {
             shipping: {address,city, country, postalCode}, 
             payment: {paymentMethod: method}, 
             itemPrice: subTotal,
             shippingPrice,
-            taxPrice,
+            taxPrice,   
             totalPrice,
             orderItems
         }
@@ -65,7 +65,7 @@ function PlaceOrder(props){
                 type: CLEAR_CART,
                 payload: []
             })
-            props.history.push('/');
+            props.history.push(`/order/${res.data.order._id}`);
         })
         .catch((err)=> console.log(err.response.data));
     }
