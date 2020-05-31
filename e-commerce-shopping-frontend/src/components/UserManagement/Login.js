@@ -7,6 +7,7 @@ import { setUserInfo } from '../../actions/actions';
 import jwt_decode from 'jwt-decode';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import setJwtToken from '../shared/securityUtils/setJwtToken';
 toast.configure();
 class Login extends Component {
     constructor(props){
@@ -42,6 +43,7 @@ class Login extends Component {
         .then((res)=> {
             const {token} = res.data;
             localStorage.setItem("jwt-token", token);
+            setJwtToken(token);
             const decoded_token = jwt_decode(token);
             this.props.setUserInfo(decoded_token, this.props.history);
             toast.success('Logged In Successfully', {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000});
