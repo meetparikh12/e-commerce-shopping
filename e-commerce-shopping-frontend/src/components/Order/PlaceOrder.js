@@ -1,6 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import OrderItems from './OrderItems'
 import { connect } from 'react-redux';
+import store from '../../store/store';
+import Cookie from 'js-cookie';
+import Axios from 'axios';
+import { CLEAR_CART } from '../../actions/actionTypes';
 
 function PlaceOrder(props){
     
@@ -35,6 +39,36 @@ function PlaceOrder(props){
         }));
         setSubTotal(totalCost.price);
     }, [props.cart])
+
+    const placeOrderHandler = () => {
+        const { shipping } = store.getState();
+        const { shippingAddress, paymentMethod } = shipping;
+        const {address, city, country, postalCode} = shippingAddress;
+        const {method} = paymentMethod;
+        const cartProduct = Cookie.getJSON("cartItems") || [];
+        const orderItems  = cartProduct.map(({_id: product, quantityOrdered})=> ({ product, quantityOrdered}));
+        const orderDetails = {
+            shipping: {address,city, country, postalCode}, 
+            payment: {paymentMethod: method}, 
+            itemPrice: subTotal,
+            shippingPrice,
+            taxPrice,
+            totalPrice,
+            orderItems
+        }
+        Axios.post('http://localhost:5000/api/orders', orderDetails)
+        .then((res)=> {
+            console.log(res.data.order); 
+            alert('Thank you for Shopping. Your Order ID is: ' +res.data.order._id);
+            Cookie.remove("cartItems");
+            store.dispatch({
+                type: CLEAR_CART,
+                payload: []
+            })
+            props.history.push('/');
+        })
+        .catch((err)=> console.log(err.response.data));
+    }
 
     return (
         <div className="container">
@@ -71,7 +105,7 @@ function PlaceOrder(props){
                 </div>
                 <div className="col-lg-4" style={{margin: "2% 0", padding: "0%"}}>
                     <div className="card" style={{"width": "18rem", margin: "auto" }}>
-                        <button className="btn btn-warning">Place Order</button>
+                        <button onClick={placeOrderHandler} className="btn btn-warning">Place Order</button>
                         <div className="card-body">
                             <h5 className="card-title"><b>Order Summary</b></h5>
                             <p className="card-text">Items: {subTotal}/- INR</p>
