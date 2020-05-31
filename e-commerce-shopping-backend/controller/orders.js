@@ -11,12 +11,9 @@ exports.CREATE_ORDER = async (req,res,next) => {
 
     for(let i=0; i<productId.length; i++){
         try {
-            console.log(productId[i]);
             product = await Product.findOne({_id: productId[i]}) 
-            console.log(product);
             
         } catch(err){
-            console.log(err);
             return next(new ErrorHandling('Not a valid product ID', 500))
         } 
         if(!product){
@@ -44,7 +41,6 @@ exports.CREATE_ORDER = async (req,res,next) => {
         await session.commitTransaction();
 
     } catch(err){
-        console.log(err);
         return next(new ErrorHandling('Order not created', 500))
     } 
     res.status(201).json({order});
@@ -90,8 +86,5 @@ exports.GET_ALL_ORDERS = async (req,res,next)=> {
     if(!orders || orders.length === 0){
         return next(new ErrorHandling('No orders found in your list', 404));
     }
-    // if (orders.user.toString() !== req.user._id) {
-    //     return next(new ErrorHandling('Not Authorized', 401))
-    // }
     res.status(200).json({orders})
 }

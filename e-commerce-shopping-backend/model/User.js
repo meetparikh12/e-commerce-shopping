@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema({
     orders: [{
         type: mongoose.Schema.Types.ObjectId,
         required: true
+    }],
+    products: [{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
     }]
 })
 
