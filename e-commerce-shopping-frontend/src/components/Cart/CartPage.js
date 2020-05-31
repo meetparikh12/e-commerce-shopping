@@ -33,8 +33,8 @@ function CartPage(props) {
                 <div className="row">
                 <div className="col-md-12">
                 <Card style={{width: "max-content", margin:"5% auto"}}>
-                    <h4><i className="fa fa-3x fa-shopping-cart" style={{color: "blue"}} aria-hidden="true"></i>
-                      Cart is empty</h4>
+                    <h4><i className="fa fa-shopping-cart" aria-hidden="true"></i> Sorry, Your Cart is empty.</h4>
+                    <Link to="/">Go Shopping</Link>
                 </Card>  
                 </div>
                 </div>

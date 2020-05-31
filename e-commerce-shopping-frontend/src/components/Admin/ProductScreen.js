@@ -13,7 +13,8 @@ class ProductScreen extends Component {
     }
     
     componentDidMount(){
-        Axios.get('http://localhost:5000/api/products')
+        const {userId} = this.props.loggedInUser;
+        Axios.get('http://localhost:5000/api/products/user/' +userId)
         .then((res)=> this.props.getAllProducts(res.data.products))
         .catch((err)=> toast.error(err.response.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000}))
     }
@@ -75,7 +76,8 @@ class ProductScreen extends Component {
 
 const mapStateToProps = state => {
     return {
-        productList: state.product.productList
+        productList: state.product.productList,
+        loggedInUser: state.user.userInfo
     }
 }
 

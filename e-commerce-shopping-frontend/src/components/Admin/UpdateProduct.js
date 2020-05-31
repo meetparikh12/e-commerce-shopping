@@ -111,7 +111,7 @@ class UpdateProduct extends Component {
                                     name="image" value={this.state.image}/>
                             </div>
                             
-                            <input type="submit" value="Add Product" className="btn btn-primary btn-block mt-4" />
+                            <input type="submit" value="Update Product" className="btn btn-primary btn-block mt-4" />
                         </form>
                     </div>
                 </div>    
