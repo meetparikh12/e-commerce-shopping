@@ -48,3 +48,17 @@ exports.GET_ORDER = async (req,res,next)=> {
     }
     res.status(200).json({order});
 }
+
+exports.GET_ALL_ORDERS = async (req,res,next)=> {
+    let orders;
+    try {
+        orders = await Order.find()
+    } catch(err){
+        return next(new ErrorHandling('Orders not fetched', 500));
+    } 
+    if(!orders || orders.length === 0){
+        return next(new ErrorHandling('No orders found in your list', 404));
+    }
+
+    res.status(200).json({orders})
+}
