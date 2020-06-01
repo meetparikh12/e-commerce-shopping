@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 function CartPage(props) {
     const [subTotal, setSubTotal] = useState(0);
     const [cartRedirectPage, setCartRedirectPage] = useState("login");
-
+    const [isLoaded, setIsLoaded] = useState(false);
     useEffect(()=>{
         if(props.loggedInUser.userId){
             setCartRedirectPage("shipping");
@@ -25,9 +25,13 @@ function CartPage(props) {
         }
         const totalCost = cartProduct.reduce((acc,cur)=> ({ price : acc.price + cur.price}));
         setSubTotal(totalCost.price);
+        setIsLoaded(true);
     }, [props.cart])
 
-    if(props.cart.length === 0) {
+    if(!isLoaded){
+        return <h4 className="text-center mt-5">Loading...</h4>
+    }
+    else if(props.cart.length === 0) {
         return (
             <div className="container"> 
                 <div className="row">

@@ -8,7 +8,8 @@ class OrderList extends Component {
     constructor(props){
         super(props);
         this.state = {
-            orders: []
+            orders: [],
+            isLoaded: false
         }
     }
     componentDidMount(){
@@ -16,14 +17,19 @@ class OrderList extends Component {
         Axios.get('http://localhost:5000/api/orders/user/' +userId)
         .then((res)=> {
             this.setState({
-                orders: res.data.orders
+                orders: res.data.orders,
+                isLoaded: true
             })
         })
         .catch((err)=> console.log(err.response.data))
     }
 
-    render() {
-        if(this.state.orders.length === 0) {
+    render(){
+
+        if(!this.state.isLoaded){
+            return <h4 className="text-center mt-5">Loading...</h4>
+        }
+        else if(this.state.orders.length === 0) {
             return (
                 <div className="container"> 
                     <div className="row">

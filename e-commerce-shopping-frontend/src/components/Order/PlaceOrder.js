@@ -10,7 +10,7 @@ function PlaceOrder(props){
     
     const [subTotal, setSubTotal] = useState(0);
     const {shippingDetails, paymentMethod, cart} = props;
-    
+    const [isLoaded, setIsLoaded] = useState(false);
     const shippingPrice = subTotal > 1000 ? 0 : 100;
     const taxPrice = parseFloat((0.15 * subTotal).toFixed(2));
     const totalPrice = subTotal + shippingPrice + taxPrice;
@@ -18,8 +18,10 @@ function PlaceOrder(props){
     useEffect(()=> {
         
         if(!props.shippingDetails.address){
-        props.history.push('/shipping')
+            setIsLoaded(true);
+            props.history.push('/shipping')
         } else if(!props.paymentMethod.method){
+            setIsLoaded(true);
             props.history.push('/payment')
         }
 
@@ -38,6 +40,7 @@ function PlaceOrder(props){
             price: acc.price + cur.price
         }));
         setSubTotal(totalCost.price);
+        setIsLoaded(true);
     }, [props.cart])
 
     const placeOrderHandler = () => {
@@ -70,6 +73,9 @@ function PlaceOrder(props){
         .catch((err)=> console.log(err.response.data));
     }
 
+    if(!isLoaded){
+        return <h4 className="text-center mt-5">Loading...</h4>
+    }
     return (
         <div className="container">
             <div className="row">

@@ -17,7 +17,8 @@ export default class SingleOrder extends Component {
             totalPrice: 0,
             payment: {},
             isDelivered: false,
-            isPaid: false
+            isPaid: false,
+            isLoaded: false
         }
         this.handleToken = this.handleToken.bind(this);
     }
@@ -36,7 +37,8 @@ export default class SingleOrder extends Component {
                 totalPrice,
                 shippingPrice,
                 isDelivered,
-                isPaid
+                isPaid,
+                isLoaded: true
             })
         })
         .catch((err)=> {
@@ -66,6 +68,9 @@ export default class SingleOrder extends Component {
      }
 
     render() {
+        if(!this.state.isLoaded){
+            return <h4 className="text-center mt-5">Loading...</h4>
+        }
         return (
             <div className="container">
             <div className="row">

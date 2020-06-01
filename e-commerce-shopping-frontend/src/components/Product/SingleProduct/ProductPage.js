@@ -10,6 +10,7 @@ function ProductPage(props) {
     const [quantityOrdered, setQuantityOrdered] = useState(1);
     const [product, setProduct] = useState({});
     const [totalPrice, setTotalPrice] = useState(0);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(()=> {
         const {productId} = props.match.params;
@@ -17,6 +18,7 @@ function ProductPage(props) {
         .then((res)=> {
             setProduct(res.data.product);
             setTotalPrice(res.data.product.price);
+            setIsLoaded(true);
         })
         .catch((err)=> console.log(err.response.data));
     }, [props.match.params]);
@@ -46,6 +48,11 @@ function ProductPage(props) {
         props.addItemToCart(cartProduct);
         props.history.push('/cart')
     }
+
+    if(!isLoaded){
+        return <h4 className="text-center mt-5">Loading...</h4>
+    }
+
     return (
         <div className="container mt-4">
             <div className="row">

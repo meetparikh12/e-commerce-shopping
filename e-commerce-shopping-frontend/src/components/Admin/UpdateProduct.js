@@ -12,7 +12,8 @@ class UpdateProduct extends Component {
             description: '',
             image: '',
             price: '',
-            quantityInStock: ''
+            quantityInStock: '',
+            isLoaded: false
         }
         this.fieldChangeHandler = this.fieldChangeHandler.bind(this);
         this.formSubmitHandler = this.formSubmitHandler.bind(this);
@@ -29,7 +30,8 @@ class UpdateProduct extends Component {
                 description: product.description,
                 image: product.image,
                 price: product.price,
-                quantityInStock: product.quantityInStock
+                quantityInStock: product.quantityInStock,
+                isLoaded: true
             })
         })
         .catch((err)=> 
@@ -75,6 +77,9 @@ class UpdateProduct extends Component {
     }
 
     render() {
+        if(!this.state.isLoaded){
+            return <h4 className="text-center mt-5">Loading...</h4>
+        }
         return (
             <div className="container">
                 <div className="row">

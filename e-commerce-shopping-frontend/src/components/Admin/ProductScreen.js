@@ -9,13 +9,21 @@ class ProductScreen extends Component {
 
     constructor(props){
         super(props);
+        this.state = {
+            isLoaded: false
+        }
         this.deleteProductHandler = this.deleteProductHandler.bind(this);
     }
     
     componentDidMount(){
         const {userId} = this.props.loggedInUser;
         Axios.get('http://localhost:5000/api/products/user/' +userId)
-        .then((res)=> this.props.getAllProducts(res.data.products))
+        .then((res)=> {
+            this.props.getAllProducts(res.data.products)
+            this.setState({
+                isLoaded: true
+            })
+        })
         .catch((err)=> toast.error(err.response.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000}))
     }
 
@@ -36,6 +44,9 @@ class ProductScreen extends Component {
     render() {
 
         const {productList} = this.props;
+        if(!this.state.isLoaded){
+            return <h4 className="text-center mt-5">Loading...</h4>
+        }
         return (
             <div className="container">
                 <Link to='/products/addNew' style={{marginTop: "2%"}} className="btn btn-primary mb-3">
