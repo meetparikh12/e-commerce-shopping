@@ -5,6 +5,7 @@ import Axios from 'axios';
 import store from '../../../store/store';
 import Cookie from 'js-cookie';
 import { toast } from 'react-toastify';
+import config from 'react-global-configuration';
 
 function ProductPage(props) {
     
@@ -15,7 +16,7 @@ function ProductPage(props) {
 
     useEffect(()=> {
         const {productId} = props.match.params;
-        Axios.get(`http://localhost:5000/api/products/${productId}`)
+        Axios.get(`${config.get('backend_url_products')}/${productId}`)
         .then((res)=> {
             setProduct(res.data.product);
             setTotalPrice(res.data.product.price);

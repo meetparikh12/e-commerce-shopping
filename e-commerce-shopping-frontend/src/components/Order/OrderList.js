@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Card from '../shared/UIElements/Card';
 import { toast } from 'react-toastify';
+import config from 'react-global-configuration';
 
 class OrderList extends Component {
     constructor(props){
@@ -15,7 +16,7 @@ class OrderList extends Component {
     }
     componentDidMount(){
         const {userId} = this.props.loggedInUser;
-        Axios.get('http://localhost:5000/api/orders/user/' +userId)
+        Axios.get(`${config.get('backend_url_orders')}/user/` + userId)
         .then((res)=> {
             this.setState({
                 orders: res.data.orders,

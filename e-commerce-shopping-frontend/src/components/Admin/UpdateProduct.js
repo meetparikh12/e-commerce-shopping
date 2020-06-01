@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import Axios from 'axios';
 import { toast } from 'react-toastify';
+import config from 'react-global-configuration';
+
 toast.configure();
 class UpdateProduct extends Component {
     constructor(props){
@@ -22,7 +24,7 @@ class UpdateProduct extends Component {
 
     componentDidMount(){
         const {productId} = this.props.match.params;
-        Axios.get(`http://localhost:5000/api/products/${productId}`)
+        Axios.get(`${config.get('backend_url_products')}/${productId}`)
         .then((res)=> {
             const {product} = res.data;
             this.setState({
@@ -67,7 +69,7 @@ class UpdateProduct extends Component {
             image,
             quantityInStock
         }
-        Axios.patch(`http://localhost:5000/api/products/${productId}`, product)
+        Axios.patch(`${config.get('backend_url_products')}/${productId}`, product)
         .then((res)=> {
             toast.success(res.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000})
             this.props.history.push('/products')

@@ -8,6 +8,8 @@ import jwt_decode from 'jwt-decode';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import setJwtToken from '../shared/securityUtils/setJwtToken';
+import config from 'react-global-configuration';
+
 toast.configure();
 class Login extends Component {
     constructor(props){
@@ -43,7 +45,7 @@ class Login extends Component {
             password: this.state.password
         }
       
-        axios.post('http://localhost:5000/api/users/login', loginUser)
+        axios.post(`${config.get('backend_url_users')}/login`, loginUser)
         .then((res)=> {
             const {token} = res.data;
             localStorage.setItem("jwt-token", token);

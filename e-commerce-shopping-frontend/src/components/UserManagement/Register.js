@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import {toast} from 'react-toastify';
+import config from 'react-global-configuration';
 
 toast.configure();
 
@@ -45,7 +46,7 @@ class Register extends Component {
             "password": this.state.password,
             "confirmPassword": this.state.confirmPassword
         }
-        axios.post('http://localhost:5000/api/users/register', newUser)
+        axios.post(`${config.get('backend_url_users')}/register`, newUser)
         .then((res)=> {
             toast.success(res.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000});
             this.props.history.push('/login');

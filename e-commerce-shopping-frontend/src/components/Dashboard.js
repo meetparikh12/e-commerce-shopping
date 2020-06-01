@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import ProductList from './Product/ProductList';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import config from 'react-global-configuration';
 
 export default function Dashboard() {
     
     const [products,setProducts] = useState([]);
     const [isLoaded,setIsLoaded] = useState(false); 
     useEffect(()=> {
-        axios.get("http://localhost:5000/api/products")
+        axios.get(`${config.get('backend_url_products')}`)
         .then((res)=> {
             setProducts(res.data.products);
             setIsLoaded(true);

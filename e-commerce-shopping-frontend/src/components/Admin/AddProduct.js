@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import Axios from 'axios';
 import { toast } from 'react-toastify';
+import config from 'react-global-configuration';
+
 class AddProduct extends Component {
     constructor(props){
         super(props);
@@ -38,7 +40,7 @@ class AddProduct extends Component {
             image,
             quantityInStock
         }
-        Axios.post('http://localhost:5000/api/products', product)
+        Axios.post(`${config.get('backend_url_products')}`, product)
         .then((res)=> {
             toast.success(res.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000})
             this.props.history.push('/products')

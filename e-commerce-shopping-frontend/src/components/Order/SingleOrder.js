@@ -25,7 +25,7 @@ export default class SingleOrder extends Component {
 
     componentDidMount(){
         const {orderId} = this.props.match.params;
-        Axios.get('http://localhost:5000/api/orders/' +orderId)
+        Axios.get(`${config.get('backend_url_orders')}/` +orderId)
         .then((res)=> {
             const {shipping, payment, orderItems, itemPrice, taxPrice, totalPrice, shippingPrice, isDelivered, isPaid} = res.data.order;
             this.setState({
@@ -53,7 +53,10 @@ export default class SingleOrder extends Component {
     
         const {totalPrice} = this.state;
         const {orderId} = this.props.match.params;
-        Axios.patch(`http://localhost:5000/api/orders/${orderId}/pay`, { token, totalPrice })
+        Axios.patch(`${config.get('backend_url_orders')}/${orderId}/pay`, {
+            token,
+            totalPrice
+        })
         .then((res)=> {
             toast.success('Payment '+res.data.status +'!', {
                 position: toast.POSITION.BOTTOM_RIGHT,

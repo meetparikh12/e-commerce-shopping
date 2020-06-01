@@ -6,6 +6,7 @@ import Cookie from 'js-cookie';
 import Axios from 'axios';
 import { CLEAR_CART } from '../../actions/actionTypes';
 import { toast } from 'react-toastify';
+import config from 'react-global-configuration';
 
 function PlaceOrder(props){
     
@@ -60,7 +61,7 @@ function PlaceOrder(props){
             totalPrice,
             orderItems
         }
-        Axios.post('http://localhost:5000/api/orders', orderDetails)
+        Axios.post(`${config.get('backend_url_orders')}`, orderDetails)
         .then((res)=> {
             alert('Thank you for Shopping. Your Order ID is: ' +res.data.order._id);
             Cookie.remove("cartItems");

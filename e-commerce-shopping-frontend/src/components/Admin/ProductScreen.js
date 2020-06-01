@@ -4,6 +4,7 @@ import Axios from 'axios';
 import { toast } from 'react-toastify';
 import { getAllProducts, deleteProduct } from '../../actions/actions';
 import { connect } from 'react-redux';
+import config from 'react-global-configuration';
 
 class ProductScreen extends Component {
 
@@ -18,7 +19,7 @@ class ProductScreen extends Component {
     
     componentDidMount(){
         const {userId} = this.props.loggedInUser;
-        Axios.get('http://localhost:5000/api/products/user/' +userId)
+        Axios.get(`${config.get('backend_url_products')}/user/` + userId)
         .then((res)=> {
             this.props.getAllProducts(res.data.products)
             this.setState({
@@ -33,11 +34,14 @@ class ProductScreen extends Component {
             isBtnDisabled: true
         })
         if(window.confirm('Do you want to delete this product? This action cannot be undone.')){
-            Axios.delete(`http://localhost:5000/api/products/${productId}`)
+            Axios.delete(`${config.get('backend_url_products')}/${productId}`)
             .then((res)=> {
                 this.props.deleteProduct(productId);
                 toast.success(res.data.message, {
                 position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000 })
+                this.setState({
+                    isBtnDisabled: false
+                })
             })
             .catch((err)=> {
                 toast.error(err.response.data.message, {
