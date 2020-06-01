@@ -29,6 +29,13 @@ function ProductPage(props) {
 
     const addToCartHandler = event => {
         event.preventDefault();
+
+        const cartItems = Cookie.getJSON("cartItems");
+        const isItemInCart = cartItems.find((item)=> item._id === product._id);
+        if(isItemInCart){
+            alert('This item is already in you cart.');
+            return;
+        }
         const cartProduct = {
             _id: product._id,
             name: product.name,

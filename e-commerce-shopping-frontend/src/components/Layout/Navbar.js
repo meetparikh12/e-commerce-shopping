@@ -3,7 +3,21 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setUserInfo } from '../../actions/actions';
 import setJwtToken from '../shared/securityUtils/setJwtToken';
+import store from '../../store/store';
+import { ADD_SHIPPING_DETAILS, ADD_PAYMENT_METHOD } from '../../actions/actionTypes';
 const Navbar = props => {
+
+    const logoutUser = () => {
+        store.dispatch({
+            type: ADD_SHIPPING_DETAILS,
+            payload: {}
+        })
+        store.dispatch({
+            type: ADD_PAYMENT_METHOD,
+            payload: {}
+        })
+        props.logoutUser();
+    }
     const {loggedInUser} = props;
     return (
         <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
@@ -41,7 +55,7 @@ const Navbar = props => {
                     </Link>
                 </li>}
                 { loggedInUser.userId && <li className="nav-item">
-                    <Link to="/login" style={{"color": "white"}} onClick={props.logoutUser} className="nav-link">
+                    <Link to="/login" style={{"color": "white"}} onClick={logoutUser} className="nav-link">
                     <i className="fas fa-sign-out-alt"  style={{color: "white"}}></i> Logout</Link>
                 </li>}
                 </ul>
