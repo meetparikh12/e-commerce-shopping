@@ -3,6 +3,9 @@ const Order = require('../model/Order');
 const ErrorHandling = require('../model/ErrorHandling');
 const Product = require('../model/Product');
 const User = require('../model/User');
+const {secretKeyStripe} = require('../config/keys');
+const stripe = require('stripe')(secretKeyStripe);
+const {v4 : uuidv4 } = require('uuid');
 
 exports.CREATE_ORDER = async (req,res,next) => {
     const {shipping, payment, orderItems, itemPrice, shippingPrice, totalPrice, taxPrice} = req.body;
@@ -87,4 +90,52 @@ exports.GET_ALL_ORDERS = async (req,res,next)=> {
         return next(new ErrorHandling('No orders found in your list', 404));
     }
     res.status(200).json({orders})
+}
+
+exports.MODIFY_ORDER = async (req,res,next)=> {
+    const {orderId} = req.params;
+    let order;
+    try {
+        order = await Order.findById(orderId);
+    }catch(err){
+        return next(new ErrorHandling('Order not fetched', 500))
+    }
+    if(!order){
+        return next(new ErrorHandling('Order not found', 404));
+    } 
+    if(order.user.toString() !== req.user._id){
+        return next(new ErrorHandling('Not Authorized', 401))
+    }
+    let status;
+    try {
+        const {totalPrice, token} = req.body;
+        const customer = await stripe.customers.create({
+            email: token.email,
+            source: token.id
+        });
+        const idempotencyKey = uuidv4();
+        const charge = await stripe.charges.create({
+            amount: totalPrice * 100,
+            currency: "INR",
+            customer: customer.id,
+            receipt_email: token.email
+        }, {
+            idempotencyKey
+        }); 
+        status="success";
+    } catch(err) {
+        return next(new ErrorHandling('Uh, oh. An error occured.', 500))
+    }
+    order.isPaid = true;
+    order.paidAt = Date.now();
+    order.payment = {
+        paymentMethod: 'Stripe',
+    }
+    try {
+        await order.save();
+    } catch(err){
+        return next(new ErrorHandling('Order not updated', 500))
+    }
+
+    res.status(200).json({order, status});
 }

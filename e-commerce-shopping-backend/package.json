@@ -16,6 +16,8 @@
     "express-validator": "^6.5.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.16",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "stripe": "^8.56.0",
+    "uuid": "^8.1.0"
   }
 }

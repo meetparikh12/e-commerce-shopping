@@ -171,7 +171,6 @@ exports.DELETE_PRODUCT = async (req,res,next) => {
     let user;
     try {
         user = await User.findById(req.user._id);
-        console.log(user);
     } catch(err){
         return next(new ErrorHandling('User not fetched', 500));
     } 
@@ -181,7 +180,6 @@ exports.DELETE_PRODUCT = async (req,res,next) => {
     let product;
     try {
         product = await Product.findById(productId);
-        console.log(product);
     } catch(err) {
         return next(new ErrorHandling('Product not fetched', 500));
     } 
@@ -200,7 +198,6 @@ exports.DELETE_PRODUCT = async (req,res,next) => {
         await product.remove({session});
         await session.commitTransaction();
     } catch(err){
-        console.log(err);
         return next(new ErrorHandling('Product not deleted', 500));
     } 
     res.status(200).json({message: 'Product deleted successfully'});
