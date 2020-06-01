@@ -13,7 +13,8 @@ class UpdateProduct extends Component {
             image: '',
             price: '',
             quantityInStock: '',
-            isLoaded: false
+            isLoaded: false,
+            isBtnDisabled: false
         }
         this.fieldChangeHandler = this.fieldChangeHandler.bind(this);
         this.formSubmitHandler = this.formSubmitHandler.bind(this);
@@ -53,6 +54,9 @@ class UpdateProduct extends Component {
     }
 
     formSubmitHandler(event){
+        this.setState({
+            isBtnDisabled: true
+        })
         event.preventDefault();
         const {productId} = this.props.match.params;
         const { name, brand, description, price, image, quantityInStock} = this.state;
@@ -72,6 +76,9 @@ class UpdateProduct extends Component {
         .catch((err)=> {
             toast.error(err.response.data.message[0].msg || err.response.data.message , {
                 position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000
+            })
+            this.setState({
+                isBtnDisabled: false
             })
         })
     }
@@ -116,7 +123,7 @@ class UpdateProduct extends Component {
                                     name="image" value={this.state.image}/>
                             </div>
                             
-                            <input type="submit" value="Update Product" className="btn btn-primary btn-block mt-4" />
+                            <input type="submit" disabled={this.state.isBtnDisabled} value="Update Product" className="btn btn-primary btn-block mt-4" />
                         </form>
                     </div>
                 </div>    

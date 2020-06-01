@@ -15,6 +15,7 @@ class Register extends Component {
             name:"",
             password:"",
             confirmPassword:"",
+            isBtnDisabled: false
         }
         this.fieldChangeHandler = this.fieldChangeHandler.bind(this);
         this.formSubmitHandler = this.formSubmitHandler.bind(this);
@@ -34,6 +35,10 @@ class Register extends Component {
 
     formSubmitHandler(e){
         e.preventDefault();
+
+        this.setState({
+            isBtnDisabled: true
+        })
         const newUser = {
             "name": this.state.name,
             "email": this.state.email,
@@ -42,12 +47,14 @@ class Register extends Component {
         }
         axios.post('http://localhost:5000/api/users/register', newUser)
         .then((res)=> {
-            console.log(res.data);
+
             toast.success(res.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000});
             this.props.history.push('/login');
         })
         .catch((err)=> {
-            console.log(err.response.data);
+            this.setState({
+                isBtnDisabled: false
+            })
             toast.error(err.response.data.message[0].msg || err.response.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000});
         });
     }
@@ -75,7 +82,7 @@ class Register extends Component {
                                 <div className="form-group">
                                     <input type="password" value={this.state.confirmPassword} onChange= {this.fieldChangeHandler}  placeholder="Confirm Password" name="confirmPassword" className="form-control form-control-lg"/>
                                 </div>
-                                <input type="submit" value="Sign up" className="btn btn-info btn-block mt-4" />
+                                <input type="submit" disabled={this.state.disabled} value="Sign up" className="btn btn-info btn-block mt-4" />
                             </form>
                         </div>
                     </div>

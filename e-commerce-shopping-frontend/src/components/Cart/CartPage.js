@@ -51,8 +51,9 @@ function CartPage(props) {
                         <div className="card" style={{width: "18rem", margin: "2% auto", float: "right"}}>
                             <div className="card-body">
                                 <h5 className="card-title">Subtotal: {subTotal}/- INR</h5>
-                                
-                                <Link to={`/${cartRedirectPage}`} className="btn btn-warning" style={{color: "white"}}>Proceed To Checkout</Link>
+                                <Link to={`/${cartRedirectPage}`}>
+                                <button type="button" style={{color: "white"}} className="btn btn-warning">Proceed To Checkout</button>
+                                </Link>
                             </div>
                         </div>
                     </div>

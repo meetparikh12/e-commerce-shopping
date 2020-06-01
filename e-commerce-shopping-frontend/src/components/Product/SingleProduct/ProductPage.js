@@ -31,8 +31,19 @@ function ProductPage(props) {
 
     const addToCartHandler = event => {
         event.preventDefault();
-
         const cartItems = Cookie.getJSON("cartItems");
+        if(!(!!cartItems)){
+            const cartProduct = {
+            _id: product._id,
+            name: product.name,
+            quantityOrdered: quantityOrdered,
+            price: totalPrice,
+            image: product.image
+        }
+            props.addItemToCart(cartProduct);
+            props.history.push('/cart')
+            return;
+        }
         const isItemInCart = cartItems.find((item)=> item._id === product._id);
         if(isItemInCart){
             alert('This item is already in you cart.');

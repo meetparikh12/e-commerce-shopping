@@ -5,7 +5,7 @@ import axios from 'axios';
 export default function Dashboard() {
     
     const [products,setProducts] = useState([]);
-    const [isLoaded,setIsLoaded] = useState(false);
+    const [isLoaded,setIsLoaded] = useState(false); 
     useEffect(()=> {
         axios.get("http://localhost:5000/api/products")
         .then((res)=> {

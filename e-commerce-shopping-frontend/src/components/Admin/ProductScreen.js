@@ -10,7 +10,8 @@ class ProductScreen extends Component {
     constructor(props){
         super(props);
         this.state = {
-            isLoaded: false
+            isLoaded: false,
+            isBtnDisabled: false
         }
         this.deleteProductHandler = this.deleteProductHandler.bind(this);
     }
@@ -28,6 +29,9 @@ class ProductScreen extends Component {
     }
 
     deleteProductHandler(productId){
+        this.setState({
+            isBtnDisabled: true
+        })
         if(window.confirm('Do you want to delete this product? This action cannot be undone.')){
             Axios.delete(`http://localhost:5000/api/products/${productId}`)
             .then((res)=> {
@@ -35,10 +39,19 @@ class ProductScreen extends Component {
                 toast.success(res.data.message, {
                 position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000 })
             })
-            .catch((err)=> toast.error(err.response.data.message, {
-                position: toast.POSITION.BOTTOM_RIGHT,
-                autoClose: 2000
-            }))
+            .catch((err)=> {
+                toast.error(err.response.data.message, {
+                    position: toast.POSITION.BOTTOM_RIGHT,
+                    autoClose: 2000
+                })
+                this.setState({
+                    isBtnDisabled: false
+                })
+            })
+        } else {
+            this.setState({
+                isBtnDisabled: false
+            })
         }
     }
     render() {
@@ -74,8 +87,8 @@ class ProductScreen extends Component {
                         <td>{product.price}</td>
                         <td className="text-center">{product.quantityInStock}</td>
                         <td className="text-center">
-                        <Link to={`/products/${product._id}`} className="btn btn-outline-info mr-1">Edit</Link>
-                        <button onClick={()=> this.deleteProductHandler(product._id)} className="btn btn-outline-danger">Delete</button></td>
+                        <Link to={`/products/${product._id}`}><button disabled={this.state.isBtnDisabled} className="btn btn-outline-info mr-1">Edit</button></Link>
+                        <button disabled={this.state.isBtnDisabled} onClick={()=> this.deleteProductHandler(product._id)} className="btn btn-outline-danger">Delete</button></td>
                     </tr>)}
                     </tbody>
                 </table>

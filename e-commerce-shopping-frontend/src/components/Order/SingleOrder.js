@@ -47,24 +47,26 @@ export default class SingleOrder extends Component {
         })
     }
 
-    handleToken(token,address){
-         const {totalPrice} = this.state;
-         const {orderId} = this.props.match.params;
-         Axios.patch(`http://localhost:5000/api/orders/${orderId}/pay`, { token, totalPrice })
-         .then((res)=> {
-             toast.success('Payment '+res.data.status +'!', {
-                 position: toast.POSITION.BOTTOM_RIGHT,
-                 autoClose: 2000
-             })
-             this.setState({
-                 isPaid: !this.state.isPaid
-             })
-         })
-         .catch((err)=> toast.error(err.response.data.message, {
-             position: toast.POSITION.BOTTOM_RIGHT,
-             autoClose: 2000
-         }));
-         
+    handleToken(token){
+    
+        const {totalPrice} = this.state;
+        const {orderId} = this.props.match.params;
+        Axios.patch(`http://localhost:5000/api/orders/${orderId}/pay`, { token, totalPrice })
+        .then((res)=> {
+            toast.success('Payment '+res.data.status +'!', {
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 2000
+            })
+            this.setState({
+                isPaid: !this.state.isPaid
+            })
+        })
+        .catch((err)=> {
+            toast.error(err.response.data.message, {
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 2000
+            })
+        });
      }
 
     render() {
@@ -110,7 +112,7 @@ export default class SingleOrder extends Component {
                 <div className="col-lg-4" style={{margin: "2% 0", padding: "0%"}}>
                     <div className="card" style={{"width": "18rem", margin: "auto" }}>
                         {
-                            !this.state.isPaid && < StripeCheckout stripeKey = {config.get('stripe_checkout_token')}
+                            !this.state.isPaid && <StripeCheckout stripeKey = {config.get('stripe_checkout_token')}
                             token={this.handleToken} currency="INR" amount={this.state.totalPrice * 100} />
                         }
                         <div className="card-body">

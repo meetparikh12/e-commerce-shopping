@@ -11,6 +11,7 @@ function PlaceOrder(props){
     const [subTotal, setSubTotal] = useState(0);
     const {shippingDetails, paymentMethod, cart} = props;
     const [isLoaded, setIsLoaded] = useState(false);
+    const [isBtnDisabled, setIsBtnDisabled] = useState(false);
     const shippingPrice = subTotal > 1000 ? 0 : 100;
     const taxPrice = parseFloat((0.15 * subTotal).toFixed(2));
     const totalPrice = subTotal + shippingPrice + taxPrice;
@@ -44,6 +45,7 @@ function PlaceOrder(props){
     }, [props.cart])
 
     const placeOrderHandler = () => {
+        setIsBtnDisabled(true);
         const { shipping } = store.getState();
         const { shippingAddress, paymentMethod } = shipping;
         const {address, city, country, postalCode} = shippingAddress;
@@ -62,6 +64,7 @@ function PlaceOrder(props){
         Axios.post('http://localhost:5000/api/orders', orderDetails)
         .then((res)=> {
             console.log(res.data.order); 
+            setIsBtnDisabled(false);
             alert('Thank you for Shopping. Your Order ID is: ' +res.data.order._id);
             Cookie.remove("cartItems");
             store.dispatch({
@@ -70,7 +73,10 @@ function PlaceOrder(props){
             })
             props.history.push(`/order/${res.data.order._id}`);
         })
-        .catch((err)=> console.log(err.response.data));
+        .catch((err)=> {
+            console.log(err.response.data);
+            setIsBtnDisabled(false);
+        });
     }
 
     if(!isLoaded){
@@ -111,7 +117,7 @@ function PlaceOrder(props){
                 </div>
                 <div className="col-lg-4" style={{margin: "2% 0", padding: "0%"}}>
                     <div className="card" style={{"width": "18rem", margin: "auto" }}>
-                        <button onClick={placeOrderHandler} className="btn btn-warning">Place Order</button>
+                        <button disabled={isBtnDisabled} onClick={placeOrderHandler} className="btn btn-warning">Place Order</button>
                         <div className="card-body">
                             <h5 className="card-title"><b>Order Summary</b></h5>
                             <p className="card-text">Items: {subTotal}/- INR</p>

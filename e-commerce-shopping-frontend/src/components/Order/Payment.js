@@ -14,8 +14,9 @@ class Payment extends Component {
 
     componentDidMount(){
         const cartItems = Cookie.getJSON("cartItems");
-        if (cartItems.length === 0) {
+        if(!(!!cartItems)){
             this.props.history.push('/cart');
+        }else if(cartItems.length === 0) {
         }
     }
     submitFormHandler(e){
@@ -36,7 +37,7 @@ class Payment extends Component {
                             <form onSubmit={this.submitFormHandler}>
                                 <h5 className="card-title" style={{marginBottom: "2rem"}}><b>Payment</b></h5>
                                 <div className="radio">
-                                <label><input type="radio" name="paymentMethod" value="Stripe" onChange={(e)=>this.setState({paymentMethod: e.target.value})}/> Stripe</label>
+                                <label><input required type="radio" name="paymentMethod" value="Stripe" onChange={(e)=>this.setState({paymentMethod: e.target.value})}/> Stripe</label>
                                 </div>  
                                 <input type="submit" value="Continue" className="btn btn-warning"/>
                             </form>

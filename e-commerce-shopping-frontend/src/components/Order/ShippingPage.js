@@ -18,8 +18,9 @@ class ShippingPage extends Component {
 
     componentDidMount(){
         const cartItems = Cookie.getJSON("cartItems");
-        if(cartItems.length === 0){
+        if(!(!!cartItems)){
             this.props.history.push('/cart');
+        } else if(cartItems.length === 0) {
         }
     }
     fieldChangeHandler(e){
@@ -45,22 +46,22 @@ class ShippingPage extends Component {
                         <br/>
                         <form onSubmit={this.submitFormHandler}>
                             <div className="form-group">
-                                <input type="text" onChange={this.fieldChangeHandler} className="form-control form-control-lg" name="address" 
+                                <input type="text" required onChange={this.fieldChangeHandler} className="form-control form-control-lg" name="address" 
                                 value={this.state.address} placeholder="Your address"/>
                             </div>
                             
                             <div className="form-group">
-                                <input type="text" onChange={this.fieldChangeHandler} className="form-control form-control-lg"
+                                <input type="text" required onChange={this.fieldChangeHandler} className="form-control form-control-lg"
                                 name="city" 
                                 value={this.state.city}  placeholder="Your city"/>
                             </div>
                             <div className="form-group">
-                                <input type="text" onChange={this.fieldChangeHandler} className="form-control form-control-lg"
+                                <input type="text" required onChange={this.fieldChangeHandler} className="form-control form-control-lg"
                                 name="country" 
                                 value={this.state.country}  placeholder="Your country"/>
                             </div>
                             <div className="form-group">
-                                <input type="text" onChange={this.fieldChangeHandler} className="form-control form-control-lg"
+                                <input type="text" required onChange={this.fieldChangeHandler} className="form-control form-control-lg"
                                 name="postalCode" 
                                 value={this.state.postalCode}  placeholder="Your postal-code"/>
                             </div>
