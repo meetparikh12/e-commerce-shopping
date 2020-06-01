@@ -19,6 +19,7 @@ import jwt_decode from 'jwt-decode';
 import store from './store/store';
 import { SET_USER_INFO } from './actions/actionTypes';
 import setJwtToken from './components/shared/securityUtils/setJwtToken';
+import SecuredRoute from './components/shared/securityUtils/SecuredRoute';
 
 const token = localStorage.getItem("jwt-token");
 if(token){
@@ -48,17 +49,17 @@ function App(){
         <Switch>
         <Route exact path="/login" component={Login}></Route>
         <Route exact path="/register" component={Register}></Route>
-        <Route exact path='/products' component={ProductScreen}></Route>
-        <Route exact path="/products/addNew" component={AddProduct}></Route>
-        <Route exact path="/products/:productId" component={UpdateProduct}></Route>
+        <SecuredRoute exact path='/products' component={ProductScreen}/>
+        <SecuredRoute exact path="/products/addNew" component={AddProduct}/>
+        <SecuredRoute exact path="/products/:productId" component={UpdateProduct}/>
         <Route exact path="/" component={Dashboard}></Route>
         <Route exact path="/product/:productId" component={ProductPage}></Route>
         <Route exact path="/cart" component={CartPage}></Route>
-        <Route exact path="/shipping" component={ShippingPage}></Route>
-        <Route exact path="/payment" component={Payment}></Route>  
-        <Route exact path="/placeorder" component={PlaceOrder}></Route>
-        <Route exact path="/orders" component={OrderList}></Route> 
-        <Route exact path="/order/:orderId" component={SingleOrder}></Route>      
+        <SecuredRoute exact path="/shipping" component={ShippingPage}/>
+        <SecuredRoute exact path="/payment" component={Payment}/>  
+        <SecuredRoute exact path="/placeorder" component={PlaceOrder}/>
+        <SecuredRoute exact path="/orders" component={OrderList}/> 
+        <SecuredRoute exact path="/order/:orderId" component={SingleOrder}/>      
         <Redirect to="/"/>
         </Switch>
         </main>

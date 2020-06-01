@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { setUserInfo } from '../../actions/actions';
 import setJwtToken from '../shared/securityUtils/setJwtToken';
 import store from '../../store/store';
-import { ADD_SHIPPING_DETAILS, ADD_PAYMENT_METHOD } from '../../actions/actionTypes';
+import { ADD_SHIPPING_DETAILS, ADD_PAYMENT_METHOD, GET_ALL_PRODUCTS } from '../../actions/actionTypes';
 const Navbar = props => {
 
     const logoutUser = () => {
@@ -15,6 +15,10 @@ const Navbar = props => {
         store.dispatch({
             type: ADD_PAYMENT_METHOD,
             payload: {}
+        })
+        store.dispatch({
+            type: GET_ALL_PRODUCTS,
+            payload: []
         })
         props.logoutUser();
     }
