@@ -54,8 +54,8 @@ class OrderList extends Component {
                 <div className="container">
                     <h2 style={{marginTop: "2%"}}>Your Orders</h2>
                     <p></p>            
-                    <table className="table">
-                        <thead>
+                    <table className="table table-hover table-responsive">
+                        <thead className="thead-dark">
                         <tr>
                             <th>Order ID</th>
                             <th>Date</th>

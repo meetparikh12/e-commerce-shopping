@@ -71,8 +71,8 @@ class ProductScreen extends Component {
                 </Link>
                 <h2 style={{marginTop: "2%"}}>Products</h2>
                 <p></p>            
-                <table className="table">
-                    <thead>
+                <table className="table table-responsive table-hover">
+                    <thead className="thead-dark">
                     <tr>
                         <th>Product ID</th>
                         <th>Name</th>
