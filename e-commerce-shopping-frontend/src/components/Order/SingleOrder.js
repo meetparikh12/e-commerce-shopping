@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import Axios from 'axios';
 import OrderItems from './OrderItems';
-
+import StripeCheckout from 'react-stripe-checkout';
+import config from 'react-global-configuration';
+import { toast } from 'react-toastify';
+toast.configure();  
 export default class SingleOrder extends Component {
     constructor(props){
         super(props);
@@ -16,6 +19,7 @@ export default class SingleOrder extends Component {
             isDelivered: false,
             isPaid: false
         }
+        this.handleToken = this.handleToken.bind(this);
     }
 
     componentDidMount(){
@@ -41,6 +45,26 @@ export default class SingleOrder extends Component {
         })
     }
 
+    handleToken(token,address){
+         const {totalPrice} = this.state;
+         const {orderId} = this.props.match.params;
+         Axios.patch(`http://localhost:5000/api/orders/${orderId}/pay`, { token, totalPrice })
+         .then((res)=> {
+             toast.success('Payment '+res.data.status +'!', {
+                 position: toast.POSITION.BOTTOM_RIGHT,
+                 autoClose: 2000
+             })
+             this.setState({
+                 isPaid: !this.state.isPaid
+             })
+         })
+         .catch((err)=> toast.error(err.response.data.message, {
+             position: toast.POSITION.BOTTOM_RIGHT,
+             autoClose: 2000
+         }));
+         
+     }
+
     render() {
         return (
             <div className="container">
@@ -51,7 +75,7 @@ export default class SingleOrder extends Component {
                             <div className="card-body">
                                 <h5 className="card-title"><b>Shipping Address</b></h5>
                                 <p className="card-text">{this.state.shippingDetails.address}, {this.state.shippingDetails.city}, {this.state.shippingDetails.country}, {this.state.shippingDetails.postalCode}</p>
-                                {this.state.isPaid === true ? <h6><b>Paid</b></h6> : <h6><b>Not Paid</b></h6>}
+                                {this.state.isDelivered === true ? <h6><b>Delivered</b></h6> : <h6><b>Not Delivered</b></h6>}
                             </div>
                         </div>
                     </div>
@@ -61,8 +85,7 @@ export default class SingleOrder extends Component {
                             <div className="card-body">
                                 <h5 className="card-title"><b>Payment Method</b></h5>
                                 <p className="card-text">{this.state.payment.paymentMethod}</p>
-                                {this.state.isDelivered === true ? <h6><b>Delivered</b></h6> : <h6><b>Not Delivered</b></h6>}
-
+                                {this.state.isPaid === true ? <h6><b>Paid</b></h6> : <h6><b>Not Paid</b></h6>}
                             </div>
                         </div>
                     </div>   
@@ -81,7 +104,10 @@ export default class SingleOrder extends Component {
                 </div>
                 <div className="col-lg-4" style={{margin: "2% 0", padding: "0%"}}>
                     <div className="card" style={{"width": "18rem", margin: "auto" }}>
-                        {/* <button onClick={placeOrderHandler} className="btn btn-warning">Place Order</button> */}
+                        {
+                            !this.state.isPaid && < StripeCheckout stripeKey = {config.get('stripe_checkout_token')}
+                            token={this.handleToken} currency="INR" amount={this.state.totalPrice * 100} />
+                        }
                         <div className="card-body">
                             <h5 className="card-title"><b>Order Summary</b></h5>
                             <p className="card-text">Items: {this.state.subTotal}/- INR</p>

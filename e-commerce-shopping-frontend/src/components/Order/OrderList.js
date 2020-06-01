@@ -55,7 +55,7 @@ class OrderList extends Component {
                         <tbody>
                         {this.state.orders.map((order)=> <tr key={order._id}>
                             <td>{order._id}</td>
-                            <td>{order.createdAt}</td>
+                            <td>{new Date(order.createdAt).toLocaleDateString()}</td>
                             <td>{order.totalPrice}</td>
                             <td>{order.isPaid === true ? <p>Yes</p> : <p>No</p> }</td>
                             <td className="text-center">{order.isDelivered === true ? <p>Yes</p> : <p>No</p>}</td>

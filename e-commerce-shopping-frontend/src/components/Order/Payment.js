@@ -29,7 +29,7 @@ class Payment extends Component {
                             <form onSubmit={this.submitFormHandler}>
                                 <h5 className="card-title" style={{marginBottom: "2rem"}}><b>Payment</b></h5>
                                 <div className="radio">
-                                <label><input type="radio" name="paymentMethod" value="PayPal" onChange={(e)=>this.setState({paymentMethod: e.target.value})}/> Paypal</label>
+                                <label><input type="radio" name="paymentMethod" value="Stripe" onChange={(e)=>this.setState({paymentMethod: e.target.value})}/> Stripe</label>
                                 </div>  
                                 <input type="submit" value="Continue" className="btn btn-warning"/>
                             </form>

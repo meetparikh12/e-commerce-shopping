@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {BrowserRouter as Router , Route, Switch, Redirect} from 'react-router-dom';
 import Navbar from './components/Layout/Navbar';
 import Dashboard from './components/Dashboard';
@@ -15,9 +15,32 @@ import Payment from './components/Order/Payment';
 import PlaceOrder from './components/Order/PlaceOrder';
 import SingleOrder from './components/Order/SingleOrder';
 import OrderList from './components/Order/OrderList';
+import jwt_decode from 'jwt-decode';
+import store from './store/store';
+import { SET_USER_INFO } from './actions/actionTypes';
+import setJwtToken from './components/shared/securityUtils/setJwtToken';
 
-class App extends Component {
-  render(){
+const token = localStorage.getItem("jwt-token");
+if(token){
+  const deocded_token = jwt_decode(token);
+  setJwtToken(token);
+  store.dispatch({
+    type: SET_USER_INFO,
+    payload: deocded_token
+  })
+
+  if(deocded_token.exp < Date.now()/1000){
+    localStorage.removeItem("jwt-token");
+    setJwtToken(false);
+    store.dispatch({
+      type: SET_USER_INFO,
+      payload: {}
+    })
+    window.location.href = '/login';
+  }
+}
+
+function App(){
     return(
       <Router>
         <Navbar/>
@@ -41,7 +64,7 @@ class App extends Component {
         </main>
       </Router>
     );
-  }
 }
+
 
 export default App;
