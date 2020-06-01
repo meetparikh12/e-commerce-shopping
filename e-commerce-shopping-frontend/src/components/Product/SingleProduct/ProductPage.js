@@ -4,6 +4,7 @@ import { addCartItem } from '../../../actions/actions';
 import Axios from 'axios';
 import store from '../../../store/store';
 import Cookie from 'js-cookie';
+import { toast } from 'react-toastify';
 
 function ProductPage(props) {
     
@@ -20,7 +21,12 @@ function ProductPage(props) {
             setTotalPrice(res.data.product.price);
             setIsLoaded(true);
         })
-        .catch((err)=> console.log(err.response.data));
+        .catch((err)=> {
+            toast.error(err.response.data.message, {
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 2000
+            })
+        });
     }, [props.match.params]);
 
 
@@ -32,19 +38,13 @@ function ProductPage(props) {
     const addToCartHandler = event => {
         event.preventDefault();
         const cartItems = Cookie.getJSON("cartItems");
+        let isItemInCart;
         if(!(!!cartItems)){
-            const cartProduct = {
-            _id: product._id,
-            name: product.name,
-            quantityOrdered: quantityOrdered,
-            price: totalPrice,
-            image: product.image
+            isItemInCart = false
+        }else {
+            isItemInCart = cartItems.find((item)=> item._id === product._id);
         }
-            props.addItemToCart(cartProduct);
-            props.history.push('/cart')
-            return;
-        }
-        const isItemInCart = cartItems.find((item)=> item._id === product._id);
+
         if(isItemInCart){
             alert('This item is already in you cart.');
             return;

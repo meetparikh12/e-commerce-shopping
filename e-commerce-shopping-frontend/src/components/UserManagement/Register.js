@@ -47,7 +47,6 @@ class Register extends Component {
         }
         axios.post('http://localhost:5000/api/users/register', newUser)
         .then((res)=> {
-
             toast.success(res.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000});
             this.props.history.push('/login');
         })

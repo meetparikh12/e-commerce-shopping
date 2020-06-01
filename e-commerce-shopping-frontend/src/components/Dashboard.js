@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ProductList from './Product/ProductList';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export default function Dashboard() {
     
@@ -12,7 +13,12 @@ export default function Dashboard() {
             setProducts(res.data.products);
             setIsLoaded(true);
         })
-        .catch((err)=> console.log(err.response.data));
+        .catch((err)=> {
+            toast.error(err.response.data.message, {
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 2000
+            })
+        });
     },[])
 
     if(!isLoaded){

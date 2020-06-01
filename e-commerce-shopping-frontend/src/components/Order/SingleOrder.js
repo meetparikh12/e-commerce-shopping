@@ -42,8 +42,10 @@ export default class SingleOrder extends Component {
             })
         })
         .catch((err)=> {
-            console.log(err);
-            console.log(err.response.data);
+            toast.error(err.response.data.message, {
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 2000
+            })
         })
     }
 

@@ -14,9 +14,8 @@ class Payment extends Component {
 
     componentDidMount(){
         const cartItems = Cookie.getJSON("cartItems");
-        if(!(!!cartItems)){
+        if(!(!!cartItems) || cartItems.length === 0){
             this.props.history.push('/cart');
-        }else if(cartItems.length === 0) {
         }
     }
     submitFormHandler(e){

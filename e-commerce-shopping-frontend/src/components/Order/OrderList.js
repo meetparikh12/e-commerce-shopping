@@ -3,6 +3,7 @@ import Axios from 'axios'
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Card from '../shared/UIElements/Card';
+import { toast } from 'react-toastify';
 
 class OrderList extends Component {
     constructor(props){
@@ -21,7 +22,12 @@ class OrderList extends Component {
                 isLoaded: true
             })
         })
-        .catch((err)=> console.log(err.response.data))
+        .catch((err)=> {
+            toast.error(err.response.data.message, {
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 2000
+            })
+        })
     }
 
     render(){
