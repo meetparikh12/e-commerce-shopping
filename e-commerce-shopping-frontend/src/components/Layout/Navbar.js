@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setUserInfo } from '../../actions/actions';
+import setJwtToken from '../shared/securityUtils/setJwtToken';
 const Navbar = props => {
     const {loggedInUser} = props;
     return (
@@ -40,7 +41,7 @@ const Navbar = props => {
                     </Link>
                 </li>}
                 { loggedInUser.userId && <li className="nav-item">
-                    <Link to="/" style={{"color": "white"}} onClick={props.logoutUser} className="nav-link">
+                    <Link to="/login" style={{"color": "white"}} onClick={props.logoutUser} className="nav-link">
                     <i className="fas fa-sign-out-alt"  style={{color: "white"}}></i> Logout</Link>
                 </li>}
                 </ul>
@@ -57,7 +58,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatchEvent => {
     return {
-        logoutUser : ()=> dispatchEvent(setUserInfo({}))
+        logoutUser : ()=> {
+            localStorage.removeItem("jwt-token");
+            setJwtToken(false);
+            dispatchEvent(setUserInfo({}));
+        }
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(Navbar);
