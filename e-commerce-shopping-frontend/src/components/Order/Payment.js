@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addPaymentMethod } from '../../actions/actions'
+import Cookie from 'js-cookie';
 
 class Payment extends Component {
     constructor(props){
@@ -11,6 +12,12 @@ class Payment extends Component {
         this.submitFormHandler = this.submitFormHandler.bind(this);
     }
 
+    componentDidMount(){
+        const cartItems = Cookie.getJSON("cartItems");
+        if (cartItems.length === 0) {
+            this.props.history.push('/cart');
+        }
+    }
     submitFormHandler(e){
         e.preventDefault();
         const paymentMethod = {

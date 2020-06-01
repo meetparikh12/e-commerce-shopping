@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { addShippingDetails } from '../../actions/actions';
 import { connect } from 'react-redux';
+import Cookie from 'js-cookie';
 
 class ShippingPage extends Component {
     constructor(props){
@@ -15,6 +16,12 @@ class ShippingPage extends Component {
         this.submitFormHandler = this.submitFormHandler.bind(this);
     }
 
+    componentDidMount(){
+        const cartItems = Cookie.getJSON("cartItems");
+        if(cartItems.length === 0){
+            this.props.history.push('/cart');
+        }
+    }
     fieldChangeHandler(e){
         this.setState({
             [e.target.name] : e.target.value
