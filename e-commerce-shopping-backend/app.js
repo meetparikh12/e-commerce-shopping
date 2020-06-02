@@ -7,8 +7,10 @@ const ErrorHandling = require('./model/ErrorHandling');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const {mongoURI} = require('./config/keys');
+const fs = require('fs');
+const path = require('path');
 
-const port = 5000 || process.env.PORT;
+const port = process.env.PORT || 5000;
 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", '*');
@@ -19,6 +21,8 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
+app.use('/uploads/images', express.static(path.join(__dirname, 'uploads', 'images')));
+
 app.use('/api/products', productRoute);
 app.use('/api/users', userRoute);
 app.use('/api/orders', orderRoute);
@@ -28,7 +32,15 @@ app.use((req,res,next)=> {
 })
 
 app.use((error,req,res,next)=> {
-    res.status(error.status).json({message: error.message});
+    
+    if(req.file) {
+        fs.unlink(req.file.path, (err)=> {
+            err && console.log(err);   
+        })
+    }
+    const message = error.message || 'Unknown error occured';
+    const status = error.status || 500;
+    res.status(status).json({message});
 })
 
 mongoose.connect(mongoURI, {
@@ -37,7 +49,7 @@ mongoose.connect(mongoURI, {
     useUnifiedTopology: true,
     useNewUrlParser: true
 }).then(()=> {
-    app.listen(5000, ()=> {
+    app.listen(port, ()=> {
         console.log("Server is listening on port "+port);
     });
 }).catch((err)=> console.log(err));

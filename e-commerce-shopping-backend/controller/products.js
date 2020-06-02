@@ -3,7 +3,7 @@ const ErrorHandling = require('../model/ErrorHandling');
 const {validationResult} = require('express-validator');
 const mongoose = require('mongoose');
 const User = require('../model/User');
-
+const fs = require('fs');
 
 exports.GET_ALL_PRODUCTS = async (req,res,next)=> {
     let products;
@@ -101,14 +101,16 @@ exports.CREATE_PRODUCT = async (req,res,next)=> {
     if(req.user.isAdmin !== true){
         return next(new ErrorHandling("Sorry, You're not authorized", 401))
     }
-    const {name, brand, description, price, quantityInStock, image} = req.body;
+    const {name, brand, description, price, quantityInStock} = req.body;
+    let imageUrl = req.file.path;
+    imageUrl = imageUrl.replace(/\\/g, "/");
     const product = new Product({
         name,
         brand,
         description,
         price,
         quantityInStock,
-        image,
+        image: imageUrl,
         user: req.user._id
     })
 
@@ -194,12 +196,18 @@ exports.DELETE_PRODUCT = async (req,res,next) => {
         session.startTransaction();
         await user.products.pull(product);
         await user.save({session});
-        
         await product.remove({session});
         await session.commitTransaction();
+
     } catch(err){
         return next(new ErrorHandling('Product not deleted', 500));
-    } 
+    }
+     
+    fs.unlink(product.image, (err)=> {
+        err && console.log(err);
+        !err && console.log('File deleted');
+    })
+
     res.status(200).json({message: 'Product deleted successfully'});
 
 }

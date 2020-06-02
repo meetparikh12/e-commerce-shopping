@@ -3,11 +3,12 @@ const route = express.Router();
 const productController = require('../controller/products');
 const {body} = require('express-validator');
 const isAuth = require('../middleware/isAuth');
+const fileUpload = require('../middleware/file-upload');
 
 route.get('/', productController.GET_ALL_PRODUCTS)
 route.get('/user/:userId', isAuth, productController.GET_ALL_PRODUCTS_FOR_USER);
 route.get('/:productId', productController.GET_SINGLE_PRODUCT);
-route.post('/', isAuth, [
+route.post('/', isAuth, fileUpload.single('image') ,[
     body('name').trim().isLength({min: 6, max: 30}).withMessage('Product Name must be between 6 to 20 characters'),
     body('brand').trim().isLength({min: 3, max: 15}).withMessage('Brand Name must be between 3 to 15 characters'),
     body('price').isInt({min: 100, max: 9999}).withMessage('Price range must be between 3 to 4 digits'),
