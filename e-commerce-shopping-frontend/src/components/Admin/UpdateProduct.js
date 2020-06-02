@@ -31,7 +31,6 @@ class UpdateProduct extends Component {
                 name: product.name,
                 brand: product.brand,
                 description: product.description,
-                image: product.image,
                 price: product.price,
                 quantityInStock: product.quantityInStock,
                 isLoaded: true
@@ -60,13 +59,12 @@ class UpdateProduct extends Component {
         })
         event.preventDefault();
         const {productId} = this.props.match.params;
-        const { name, brand, description, price, image, quantityInStock} = this.state;
+        const { name, brand, description, price, quantityInStock} = this.state;
         const product = {
             name,
             brand,
             description,
             price,
-            image,
             quantityInStock
         }
         Axios.patch(`${config.get('backend_url_products')}/${productId}`, product)
@@ -119,11 +117,6 @@ class UpdateProduct extends Component {
                                 name="quantityInStock" 
                                 value={this.state.quantityInStock}  placeholder="Quantity in Stock"/>
                             </div>
-                            <div className="form-group">
-                                <input type="text" onChange={this.fieldChangeHandler} className="form-control form-control-lg" placeholder="Product Image" 
-                                    name="image" value={this.state.image}/>
-                            </div>
-                            
                             <input type="submit" disabled={this.state.isBtnDisabled} value="Update Product" className="btn btn-primary btn-block mt-4" />
                         </form>
                     </div>

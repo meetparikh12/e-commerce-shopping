@@ -18,6 +18,16 @@ class AddProduct extends Component {
         }
         this.fieldChangeHandler = this.fieldChangeHandler.bind(this);
         this.formSubmitHandler = this.formSubmitHandler.bind(this);
+        this.fileChangeHandler = this.fileChangeHandler.bind(this);
+
+    }
+
+    fileChangeHandler(e) {
+        console.log(e.target);
+        
+        this.setState({
+            image: e.target.files[0]
+        })
     }
 
     fieldChangeHandler(event) {
@@ -32,20 +42,22 @@ class AddProduct extends Component {
             isBtnDisabled: true
         })
         const { name, brand, description, price, image, quantityInStock} = this.state;
-        const product = {
-            name,
-            brand,
-            description,
-            price,
-            image,
-            quantityInStock
-        }
+        
+        const product = new FormData();
+        product.set('name', name);
+        product.set('brand', brand);
+        product.set('description', description);
+        product.set('price', price);
+        product.set('quantityInStock', quantityInStock);
+        product.append('image', image);
+
         Axios.post(`${config.get('backend_url_products')}`, product)
         .then((res)=> {
             toast.success(res.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000})
             this.props.history.push('/products')
         })
         .catch((err)=> {
+            console.log(err);
             toast.error(err.response.data.message[0].msg || err.response.data.message , {
                 position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000
             })
@@ -88,8 +100,8 @@ class AddProduct extends Component {
                                 value={this.state.quantityInStock}  placeholder="Quantity in Stock"/>
                             </div>
                             <div className="form-group">
-                                <input type="text" onChange={this.fieldChangeHandler} className="form-control form-control-lg" placeholder="Product Image" 
-                                    name="image" value={this.state.image}/>
+                                <input type="file" required accept='.jpg,.png,.jpeg' onChange={this.fileChangeHandler} className="form-control form-control-lg" placeholder="Product Image" 
+                                    name="image"/>
                             </div>
                             
                             <input type="submit" disabled={this.state.isBtnDisabled} value="Add Product" className="btn btn-primary btn-block mt-4" />

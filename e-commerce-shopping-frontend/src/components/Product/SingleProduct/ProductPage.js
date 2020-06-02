@@ -47,7 +47,7 @@ function ProductPage(props) {
         }
 
         if(isItemInCart){
-            alert('This item is already in you cart.');
+            alert('This item is already in your cart.');
             return;
         }
         const cartProduct = {
@@ -69,7 +69,7 @@ function ProductPage(props) {
         <div className="container mt-4">
             <div className="row">
                 <div className="col-md-4 pr-2 mt-4">
-                     <img className="img-fluid rounded" src={product.image} alt="Product"/> 
+                     <img className="img-fluid rounded" src={`${config.get('backend_asset_url')}/${product.image}`} alt="Product"/> 
                 </div>
                 
                 <div className="col-md-8 my-4" style={{paddingLeft: "10%"}}>

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { removeCartItem } from '../../actions/actions';
 import store from '../../store/store';
 import Cookie from "js-cookie";
+import config from 'react-global-configuration';
 
 function CartItem(props) {
 
@@ -14,7 +15,7 @@ function CartItem(props) {
         <React.Fragment>
          <div className="row">
             <div className="col-md-2">
-                <img className="img-rounded rounded-circle" style={{"width": "5.5rem", "height": "5.5rem"}} src={props.item.image} alt="Cart item"/>
+                <img className="img-rounded rounded-circle" style={{"width": "5.5rem", "height": "5.5rem"}} src={`${config.get('backend_asset_url')}/${props.item.image}`} alt="Cart item"/>
             </div>
             <div className="col-md-8">
                 <h6>{props.item.name}</h6>
