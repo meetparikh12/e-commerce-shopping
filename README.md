@@ -1,6 +1,6 @@
 # e-commerce-shopping
 
-Online-Shopify is a responsive e-commerce shopping site for clothes created using MERN stack.
+Online-Shopify is a responsive e-commerce shopping site for clothes created using MERN stack,
 
 where users can go through all the product items available and can accordingly buy items by adding products to their cart and payment gateway has been implemented where users can pay their order bill. 
 
