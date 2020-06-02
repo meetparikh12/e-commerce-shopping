@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Axios from 'axios'
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Card from '../shared/UIElements/Card';
+import Card from '../../components/shared/UIElements/Card';
 import { toast } from 'react-toastify';
 import config from 'react-global-configuration';
 

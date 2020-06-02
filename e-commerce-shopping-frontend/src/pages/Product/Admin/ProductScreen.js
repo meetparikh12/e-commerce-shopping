@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
 import { toast } from 'react-toastify';
-import { getAllProducts, deleteProduct } from '../../actions/actions';
+import { getAllProducts, deleteProduct } from '../../../actions/actions';
 import { connect } from 'react-redux';
 import config from 'react-global-configuration';
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import ProductList from './Product/ProductList';
+import ProductList from '../components/Product/ProductList';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import config from 'react-global-configuration';

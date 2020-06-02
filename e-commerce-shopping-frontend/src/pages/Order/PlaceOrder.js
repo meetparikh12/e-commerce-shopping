@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import OrderItems from './OrderItems'
+import OrderItems from '../../components/Order/OrderItems'
 import { connect } from 'react-redux';
 import store from '../../store/store';
 import Cookie from 'js-cookie';

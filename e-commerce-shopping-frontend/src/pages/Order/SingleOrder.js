@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Axios from 'axios';
-import OrderItems from './OrderItems';
+import OrderItems from '../../components/Order/OrderItems';
 import StripeCheckout from 'react-stripe-checkout';
 import config from 'react-global-configuration';
 import { toast } from 'react-toastify';

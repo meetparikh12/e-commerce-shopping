@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { connect } from "react-redux";
-import Card from '../shared/UIElements/Card';
-import CartItem from './CartItem';
+import Card from '../../components/shared/UIElements/Card';
+import CartItem from '../../components/Cart/CartItem';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 

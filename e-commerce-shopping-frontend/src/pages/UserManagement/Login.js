@@ -7,7 +7,7 @@ import { setUserInfo } from '../../actions/actions';
 import jwt_decode from 'jwt-decode';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import setJwtToken from '../shared/securityUtils/setJwtToken';
+import setJwtToken from '../../components/shared/securityUtils/setJwtToken';
 import config from 'react-global-configuration';
 
 toast.configure();
